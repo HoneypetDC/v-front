@@ -8,11 +8,11 @@
         <section>
             <div class="tc-tprofundo text-center ">
               <h2>¿Como Puedo Apoyar la Iniciativa?</h2>
-              <p class="alianzas-p">HoneyPet-DC, es un sitio en constante actualización y soporte, todo esto con el fin de ayudar a perros y gatos a tener un nuevo hogar, puedes ayudándonos a contribuir en esta iniciativa de tres formas diferentes:</p>
+              <p class="alianzas-p">HoneyPet-DC, es un sitio en constante actualización y soporte, todo esto con el fin de buscar un hogar para aquellos perros y gatos que no lo tengan, puedes ayudándonos a contribuir en esta iniciativa de tres formas diferentes:</p>
             </div>
             <div class="tc-tprofundo text-center">
               <h3>1. Donaciones</h3>
-              <p class="alianzas-p">Donar es una de las mejores formas en las que puedes ayudar a que esta página siga teniendo soporte y actualizaciones, para hacer de este sitio una de las mejores formas de adopción a nivel mundial. Para donar debes dirigirte a la parte inferior de esta página, allí encontraras un formulario de contacto en el cual debes colocar como asunto "Donación", luego debes rellenar los datos que te solicitan para poder contactarte y darte más información acerca del proceso de donación.</p>
+              <p class="alianzas-p">Donar es una de las mejores formas en las que puedes ayudar a que esta página siga teniendo soporte y actualizaciones, para hacer de este sitio de aopción uno de los mejores a nivel mundial. Para donar debes dirigirte a la parte inferior de esta página, allí encontraras un formulario de contacto en el cual debes colocar como asunto "Donación", luego debes rellenar los datos que te solicitan para poder contactarte y darte más información acerca del proceso de donación.</p>
             </div>
             <div class="tc-tprofundo text-center">
               <h3>2. Patrocinios</h3>
