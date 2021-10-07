@@ -22,11 +22,11 @@
 
                 <form action="">
                   <div class="form-floating mb-3">
-                    <input type="email" class="form-control" id="floatingMail" placeholder="name@example.com" required>
+                    <input v-model="c_email" type="email" class="form-control" id="floatingMail" placeholder="name@example.com" required>
                     <label for="floatingMail">*Correo Electronico</label>
                   </div>
                   <div class="form-floating">
-                    <input type="password" class="form-control" id="floatingPw" placeholder="Password" minlength="8"  required>
+                    <input v-model="c_pw" type="password" class="form-control" id="floatingPw" placeholder="Password" minlength="6"  required>
                     <label for="floatingPw">*Contraseña</label>
                   </div>
 
@@ -36,7 +36,7 @@
                   <div class="modal-footer">
                     <button type="button" class="btn bgc-tclaro opaco-8" data-bs-dismiss="modal">Cancelar</button>
                     <!-- <button type="submit" class="btn bgc-tintenso opaco-8">Iniciar Sesion</button> -->
-                    <a class="nav-link btn btn-sm btn bgc-tintenso tc-toscuro opaco-8" href="perfil.html" >Iniciar Sesion</a>
+                    <button @click.prevent="login" class="nav-link btn btn-sm btn bgc-tintenso tc-toscuro opaco-8" >Iniciar Sesion</button>
                   </div>
                 </form>
 
@@ -104,6 +104,42 @@
     </footer>
   </div>
 </template>
+
+<script>
+// import { defineComponent } from '@vue/composition-api'
+import { getUserByEmail, createUser } from '@/services/UserService'
+
+export default {
+  data () {
+    return {
+      user_data: [],
+      c_email: '',
+      c_pw: '',
+    }
+  },
+  methods: {
+    login() {
+      getUserByEmail(this.c_email)
+      .then((response) => {
+        // this.user_data = response.data;
+        // console.log(this.user_data);
+        if (response.data.user_email) {
+          this.user_data = response.data;
+          console.log(this.user_data);
+        } else {
+          
+        }
+      })
+      .catch((e) => {
+        console.error(e);
+        console.log("no existe el usuario" + this.c_pw);
+      });
+
+    }
+  }
+}
+</script>
+
 
 <style>
 #nav a.router-link-exact-active {
