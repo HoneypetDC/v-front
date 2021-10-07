@@ -20,7 +20,7 @@
             </div>
             <div class="tc-tprofundo text-center">
               <h3>3. Alianzas</h3>
-              <p class="alianzas-p">Las alianzas representan un gran aporte hacia esta iniciativa y de paso pueden contribuir al crecimiento y fortalecimiento de tu empresa junto con nosotros. Para realizar una alianza debes diligenciar el formulario de contacto ubicado en la última sección de la página, en el cual debes colocar como asunto "Alianzas" y luego rellenar los datos que te solicitan para poder contactarte y darte más información acerca del proceso de una alianza con nuestra organizacón.</p>
+              <p class="alianzas-p">Las alianzas representan un gran aporte hacia esta iniciativa y de paso pueden contribuir al crecimiento y fortalecimiento de tu empresa junto con nosotros. Para realizar una alianza debes diligenciar el formulario de contacto ubicado en la última sección de la página, en el cual debes colocar como asunto "Alianzas" y luego rellenar los datos que te solicitan para poder contactarte y darte más información acerca del proceso de una alianza con nuestra organización.</p>
             </div>
         </section>
         </div>
