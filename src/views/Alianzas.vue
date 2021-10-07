@@ -29,7 +29,7 @@
               <h2 class="text-center mb-4">Formulario de Contacto</h2>
               <form>
                 <div class="mb-3">
-                    <label for="nombre-alianza" class="form-label">Persona, empresa o sociedad: </label><input id="nombre-alianza" width="25px"  type="number" size="20" placeholder="Ingrese su nombre o el nombre de su empresa" max="10" class="form-control">
+                    <label for="nombre-alianza" class="form-label">Persona, empresa o sociedad: </label><input id="nombre-alianza" width="25px"  type="text" size="20" placeholder="Ingrese su nombre o el nombre de su empresa" max="10" class="form-control">
                 </div>
                 <div  class="mb-3">
                     <label for="correo-electronico" class="form-label">*Correo electronico: </label><input id="correo-electronico" name="correo-electronico" class="form-control" type="email" size="20"  placeholder="nombre@example.com" required>
