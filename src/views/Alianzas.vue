@@ -8,19 +8,19 @@
         <section>
             <div class="tc-tprofundo text-center ">
               <h2>¿Como Puedo Apoyar la Iniciativa?</h2>
-              <p class="alianzas-p">HoneyPet-DC, es un sitio en constante actualización y soporte, todo esto con el fin de buscar un hogar para aquellos perros y gatos que no lo tengan, puedes ayudándonos a contribuir en esta iniciativa de tres formas diferentes:</p>
+              <p class="alianzas-p">HoneyPet-DC, es un sitio en constante actualización y soporte, emarcada en la adopción de perros y gatos que buscan un hogar en donde puedan recibir el cuidado y amor que merecen, puedes ayudarnos a contribuir con esta iniciativa de tres formas diferentes:</p>
             </div>
             <div class="tc-tprofundo text-center">
-              <h3>1. Donaciones</h3>
-              <p class="alianzas-p">Donar es una de las mejores formas en las que puedes ayudar a que esta página siga teniendo soporte y actualizaciones, para hacer de este sitio de aopción uno de los mejores a nivel mundial. Para donar debes dirigirte a la parte inferior de esta página, allí encontraras un formulario de contacto en el cual debes colocar como asunto "Donación", luego debes rellenar los datos que te solicitan para poder contactarte y darte más información acerca del proceso de donación.</p>
+              <h3>1. Donaciones</h3>  
+              <p class="alianzas-p">Donar es una de las mejores formas en las que puedes ayudar a que esta página siga teniendo soporte y actualizaciones, para hacer de este sitio de adopción uno de los mejores a nivel mundial. Para donar debes dirigirte a la parte inferior de esta página, allí encontrarás un formulario de contacto en el cual debes colocar como asunto "Donación", luego debes rellenar los datos que te solicitan para poder contactarte y darte más información acerca del proceso de donación.</p>
             </div>
             <div class="tc-tprofundo text-center">
               <h3>2. Patrocinios</h3>
-              <p class="alianzas-p">Patrocinar es la mejor forma para ayudar a que HoneyPet-DC crezca y pueda llegar a más lugares y mascotas abandonadas y necesitabas de un nuevo hogar. Para patrocinarnos debes dirigirte a la parte inferior de esta página, allí encontraras un formulario de contacto en el cual debes colocar como asunto "Patrocinio", luego debes rellenar los datos que te solicitan para poder contactarte y darte más información acerca del proceso de patrocinio.</p>
+              <p class="alianzas-p">Patrocinar es otra forma destacada para ayudar a que HoneyPet-DC crezca y pueda llegar a más lugares y mascotas abandonadas o necesitadas de un nuevo hogar. Para patrocinarnos debes dirigirte a la parte inferior de esta página, allí encontrarás un formulario de contacto en el cual debes colocar como asunto "Patrocinio", luego debes rellenar los datos que te solicitan para poder contactarte y darte más información acerca del proceso de patrocinio.</p>
             </div>
             <div class="tc-tprofundo text-center">
               <h3>3. Alianzas</h3>
-              <p class="alianzas-p">Las alianzas son la mejor forma de hacer crecer tu empresa junto con nosotros y así poder ayudar a más mascotas abandonadas en todo el pais. Para hacer una alianza con nosotros debes debes diligenciar el formulario de contacto en el cual debes colocar como asunto "Alianzas", luego debes rellenar los datos que te solicitan para poder contactarte y darte más información acerca del proceso de una alianza.</p>
+              <p class="alianzas-p">Las alianzas representan un gran aporte hacia esta iniciativa y de paso pueden contribuir al crecimiento y fortalecimiento de tu empresa junto con nosotros. Para realizar una alianza debes diligenciar el formulario de contacto ubicado en la última sección de la página, en el cual debes colocar como asunto "Alianzas" y luego rellenar los datos que te solicitan para poder contactarte y darte más información acerca del proceso de una alianza con nuestra organizacón.</p>
             </div>
         </section>
         </div>
