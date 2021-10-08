@@ -118,7 +118,7 @@ export default {
       c_pw: '',
       unlogin: true,
       new_user: {user_name:"",user_email:"",user_password:"",user_phone:0},
-      newUser2: {user_name:"Camipon",user_email:"cami@demo.co",user_password:"12345567",user_phone:312121212}
+      newUser2: {"user_name":"Camipon","user_email":"cami@demo.co","user_password":"12345567","user_phone":312121212}
 
     }
   },
@@ -180,7 +180,7 @@ export default {
       .catch((e) => {
         console.error(e);
         console.log("no se creo el user");
-      });
+      })
     }
   }
 }
