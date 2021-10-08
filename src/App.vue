@@ -117,28 +117,9 @@ export default {
       c_email: '',
       c_pw: '',
       unlogin: true,
-      new_user: {user_name:"",user_email:"",user_password:"",user_phone:0},
-      newUser2: {"user_name":"Camipon","user_email":"cami@demo.co","user_password":"12345567","user_phone":312121212}
+      new_user: {user_name:"",user_email:"",user_password:"",user_phone:0}
 
     }
-  },
-  mounted() {
-    console.log("Hola desde el mounted")
-    createUser(this.newUser2)
-      .then((response) => {
-        console.log("Se ejecutó" + response)
-        // this.new_user.user_name = ""
-        // this.new_user.user_email = ""
-        // this.new_user.user_password = ""
-        // this.new_user.user_phone = 0
-        console.log(this.newUser2)
-
-      })
-      .catch((e) => {
-        console.error(e);
-        console.log("no se creo el user");
-      })
-
   },
   methods: {
     login() {
@@ -167,9 +148,9 @@ export default {
       const newUser = JSON.stringify(this.new_user)
       console.log(this.new_user)
       console.log(newUser)
-      createUser(newUser)
+      createUser(this.new_user)
       .then((response) => {
-        console.log("Se ejecutó" + response)
+        console.log("Se Creoooo" + response)
         // this.new_user.user_name = ""
         // this.new_user.user_email = ""
         // this.new_user.user_password = ""
