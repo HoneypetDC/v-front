@@ -45,19 +45,19 @@
 
                 <form action="">
                   <div class="form-floating mb-3">
-                    <input type="text" class="form-control" id="floatingName" placeholder="nombre completo" required>
+                    <input v-model="new_user.user_name" type="text" class="form-control" id="floatingName" placeholder="nombre completo" required>
                     <label for="floatingName">*Nombre Completo</label>
                   </div>
                   <div class="form-floating mb-3">
-                    <input type="number" class="form-control" id="floatingTel" placeholder="numero telefonico" size="10" max="10">
+                    <input v-model="new_user.user_phone" type="number" class="form-control" id="floatingTel" placeholder="numero telefonico">
                     <label for="floatingTel">Numero Telefonico</label>
                   </div>
                   <div class="form-floating mb-3">
-                    <input type="email" class="form-control" id="floatingEmail" placeholder="name@example.com" required>
+                    <input v-model="new_user.user_email" type="email" class="form-control" id="floatingEmail" placeholder="name@example.com" required>
                     <label for="floatingEmail">*Correo Electronico</label>
                   </div>
                   <div class="form-floating">
-                    <input type="password" class="form-control" id="floatingPassword" placeholder="Password" minlength="8"  required>
+                    <input v-model="new_user.user_password" type="password" class="form-control" id="floatingPassword" placeholder="Password" minlength="6"  required>
                     <label for="floatingPassword">*Contraseña</label>  
                   </div>
                   <p></p>
@@ -65,7 +65,7 @@
                   <p>*Campos obligatorios</p>
                   <div class="modal-footer">
                     <button type="button" class="btn bgc-tclaro opaco-8" data-bs-dismiss="modal">Cancelar</button>
-                    <button type="submit" class="btn bgc-tintenso opaco-8">Crear Cuenta</button>
+                    <button @click.prevent="signup()" type="submit" class="btn bgc-tintenso opaco-8">Crear Cuenta</button>
                   </div>
 
                 </form>
@@ -91,7 +91,8 @@
             <li class="nav-item"><router-link to="/adoptar" class="nav-link"><i class="fas fa-paw"></i> Adoptar</router-link></li>
             <li class="nav-item"><router-link to="/alianzas" class="nav-link"><i class="fas fa-handshake"></i> Alianzas</router-link></li>
             <li class="nav-item"><router-link to="/publicar" class="nav-link btn btn-sm bgc-tneutro tc-tprofundo opaco-5" href="publicar.html"><i class="fas fa-plus"></i> Publicar</router-link></li>
-            <li class="nav-item"><router-link to="/perfil" class="nav-link" role="button" data-bs-toggle="modal" data-bs-target="#exampleModal"><i class="fas fa-user-circle"></i> Perfil</router-link></li>
+            <li v-if="this.unlogin" class="nav-item"><a class="nav-link" role="button" data-bs-toggle="modal" data-bs-target="#exampleModal"><i class="fas fa-user-astronaut"></i> Ingresar</a></li>
+            <li v-else class="nav-item"><router-link to="/perfil" class="nav-link" role="button"><i class="far fa-address-card"></i> Perfil</router-link></li>
           </ul>
         </div>
       </div>
@@ -115,7 +116,29 @@ export default {
       user_data: [],
       c_email: '',
       c_pw: '',
+      unlogin: true,
+      new_user: {user_name:"",user_email:"",user_password:"",user_phone:0},
+      newUser2: {user_name:"Camipon",user_email:"cami@demo.co",user_password:"12345567",user_phone:312121212}
+
     }
+  },
+  mounted() {
+    console.log("Hola desde el mounted")
+    createUser(this.newUser2)
+      .then((response) => {
+        console.log("Se ejecutó" + response)
+        // this.new_user.user_name = ""
+        // this.new_user.user_email = ""
+        // this.new_user.user_password = ""
+        // this.new_user.user_phone = 0
+        console.log(this.newUser2)
+
+      })
+      .catch((e) => {
+        console.error(e);
+        console.log("no se creo el user");
+      })
+
   },
   methods: {
     login() {
@@ -124,10 +147,14 @@ export default {
         // this.user_data = response.data;
         // console.log(this.user_data);
         if (response.data.user_email) {
-          this.user_data = response.data;
-          console.log(this.user_data);
-        } else {
-          
+          if (response.data.user_password === this.c_pw) {
+            this.user_data = response.data;
+            console.log("el passwod coincide")
+            console.log(this.user_data);
+            this.unlogin = false;
+          } else {
+            alert("La contraseña no coincide!") 
+          }
         }
       })
       .catch((e) => {
@@ -135,6 +162,25 @@ export default {
         console.log("no existe el usuario" + this.c_pw);
       });
 
+    },
+    signup() {
+      const newUser = JSON.stringify(this.new_user)
+      console.log(this.new_user)
+      console.log(newUser)
+      createUser(newUser)
+      .then((response) => {
+        console.log("Se ejecutó" + response)
+        // this.new_user.user_name = ""
+        // this.new_user.user_email = ""
+        // this.new_user.user_password = ""
+        // this.new_user.user_phone = 0
+        console.log(this.new_user)
+
+      })
+      .catch((e) => {
+        console.error(e);
+        console.log("no se creo el user");
+      });
     }
   }
 }
