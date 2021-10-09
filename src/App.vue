@@ -1,11 +1,12 @@
 <template>
   <div id="app">
-    <!---------------------------------- Loging Modal ------------------------------------>
+    <!---------------------------------- Login Modal ------------------------------------>
     <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
       <div class="modal-dialog">
         <div class="modal-content">
           <div class="modal-header">
             
+            <!---------------------------------- tabs ------------------------------------>
             <ul class="nav nav-tabs" id="myTab" role="tablist">
               <li class="nav-item" role="presentation">
                 <button class="nav-link active" id="home-tab" data-bs-toggle="tab" data-bs-target="#home" type="button" role="tab" aria-controls="home" aria-selected="true">Iniciar Sesion</button>
@@ -15,35 +16,44 @@
               </li>
             </ul>
           </div>
-
+          
           <div class="modal-body">
             <div class="tab-content" id="myTabContent">
               <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
 
-                <form action="">
+          <!---------------------------------- Login form ------------------------------------>
+                <form @submit.prevent="login()">
                   <div class="form-floating mb-3">
                     <input v-model="c_email" type="email" class="form-control" id="floatingMail" placeholder="name@example.com" required>
                     <label for="floatingMail">*Correo Electronico</label>
                   </div>
-                  <div class="form-floating">
+                  <div class="form-floating mb-3">
                     <input v-model="c_pw" type="password" class="form-control" id="floatingPw" placeholder="Password" minlength="6"  required>
                     <label for="floatingPw">*Contraseña</label>
                   </div>
 
-                  <p></p>
                   <p>*Campos obligatorios</p>
+                  <div v-if="success_show" class="alert alert-success alert-dismissible fade show" role="alert">
+                    {{ success_msg }}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                  </div>
+                  <div v-if="error_show" class="alert alert-danger alert-dismissible fade show" role="alert">
+                    {{ error_msg }}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                  </div>
 
                   <div class="modal-footer">
                     <button type="button" class="btn bgc-tclaro opaco-8" data-bs-dismiss="modal">Cancelar</button>
                     <!-- <button type="submit" class="btn bgc-tintenso opaco-8">Iniciar Sesion</button> -->
-                    <button @click.prevent="login" class="nav-link btn btn-sm btn bgc-tintenso tc-toscuro opaco-8" >Iniciar Sesion</button>
+                    <button class="nav-link btn btn-sm btn bgc-tintenso tc-toscuro opaco-8" >Iniciar Sesion</button>
                   </div>
                 </form>
 
               </div>
               <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
 
-                <form action="">
+          <!---------------------------------- signup form ------------------------------------>
+                <form @submit.prevent="signup()">
                   <div class="form-floating mb-3">
                     <input v-model="new_user.user_name" type="text" class="form-control" id="floatingName" placeholder="nombre completo" required>
                     <label for="floatingName">*Nombre Completo</label>
@@ -56,16 +66,22 @@
                     <input v-model="new_user.user_email" type="email" class="form-control" id="floatingEmail" placeholder="name@example.com" required>
                     <label for="floatingEmail">*Correo Electronico</label>
                   </div>
-                  <div class="form-floating">
-                    <input v-model="new_user.user_password" type="password" class="form-control" id="floatingPassword" placeholder="Password" minlength="6"  required>
+                  <div class="form-floating mb-3">
+                    <input v-model="new_user.user_password" type="password" class="form-control" id="floatingPassword" placeholder="Password" minlength="6" required>
                     <label for="floatingPassword">*Contraseña</label>  
                   </div>
-                  <p></p>
-
                   <p>*Campos obligatorios</p>
+                  <div v-if="success_show" class="alert alert-success alert-dismissible fade show" role="alert">
+                    {{ success_msg }}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                  </div>
+                  <div v-if="error_show" class="alert alert-danger alert-dismissible fade show" role="alert">
+                    {{ error_msg }}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                  </div>
                   <div class="modal-footer">
                     <button type="button" class="btn bgc-tclaro opaco-8" data-bs-dismiss="modal">Cancelar</button>
-                    <button @click.prevent="signup()" type="submit" class="btn bgc-tintenso opaco-8">Crear Cuenta</button>
+                    <button type="submit" class="btn bgc-tintenso opaco-8">Crear Cuenta</button>
                   </div>
 
                 </form>
@@ -109,11 +125,16 @@
 <script>
 // import { defineComponent } from '@vue/composition-api'
 import { getUserByEmail, createUser } from '@/services/UserService'
+import Vue from 'vue'
 
 export default {
   data () {
     return {
       user_data: [],
+      error_show: false,
+      success_show: false,
+      error_msg: 'Error',
+      success_msg: 'Logrado',
       c_email: '',
       c_pw: '',
       unlogin: true,
@@ -121,46 +142,90 @@ export default {
 
     }
   },
+  mounted() {
+    // console.warn("Hola desde el created.....")
+    if(!localStorage.getItem('localUserData')){
+      this.unlogin = true
+    } else {
+      this.unlogin = false
+    }
+    Vue.prototype.$islogin = this.unlogin
+  },
   methods: {
     login() {
       getUserByEmail(this.c_email)
       .then((response) => {
-        // this.user_data = response.data;
-        // console.log(this.user_data);
         if (response.data.user_email) {
           if (response.data.user_password === this.c_pw) {
             this.user_data = response.data;
-            console.log("el passwod coincide")
-            console.log(this.user_data);
+            this.success_show = true
+            this.success_msg = "Operación Exitosa!, redireccionando..."
             this.unlogin = false;
+            // loginModal.hide()
+            const loginModal = document.getElementById("exampleModal")
+            const backModal = document.querySelector("div.modal-backdrop");
+            const padreM = loginModal.parentNode;
+            const padreBM = backModal.parentNode;
+            padreM.removeChild(loginModal);
+            padreBM.removeChild(backModal);
+            this.success_show = false
+            this.error_show = false
+            // poner un setimeout para que se vea el 
+
+            localStorage.setItem('localUserData', JSON.stringify(response.data));
+            
+            // ----- Local storage doc:
+            // ----- Guardar datos
+            // const miObjeto = { 'marcado': 'html5', 'estilo': 'css3', 'comportamiento': 'js' };
+            // localStorage.setItem('datos', JSON.stringify(miObjeto));
+            // ----- Obtener los datos
+            // var guardado = localStorage.getItem('datos');
+            // console.log('objetoObtenido: ', JSON.parse(guardado));
+            // ----- Borrar los datos
+            // localStorage.removeItem('key');
+            // ----- Elimina todos los elementos
+            // localStorage.clear();
+
+            // Vue.prototype.$app = this.user_data
+            this.$router.push('/perfil');
+
           } else {
-            alert("La contraseña no coincide!") 
+            this.error_show = false
+            this.error_show = true
+            this.error_msg = "La contraseña no coincide!"
           }
         }
       })
       .catch((e) => {
         console.error(e);
-        console.log("no existe el usuario" + this.c_pw);
+        this.error_show = true
+        this.error_msg = "El email que ingreso no tiene un usuario asociado"
+        // this.error_show = false
       });
 
     },
     signup() {
-      const newUser = JSON.stringify(this.new_user)
-      console.log(this.new_user)
-      console.log(newUser)
+      // const newUser = JSON.stringify(this.new_user)
+      // console.log(newUser)
       createUser(this.new_user)
       .then((response) => {
-        console.log("Se Creoooo" + response)
-        // this.new_user.user_name = ""
-        // this.new_user.user_email = ""
-        // this.new_user.user_password = ""
-        // this.new_user.user_phone = 0
-        console.log(this.new_user)
+        localStorage.setItem('localUserData', JSON.stringify(response.data));
+        this.unlogin = false;
+
+        const loginModal = document.getElementById("exampleModal")
+        const backModal = document.querySelector("div.modal-backdrop");
+        const padreM = loginModal.parentNode;
+        const padreBM = backModal.parentNode;
+        padreM.removeChild(loginModal);
+        padreBM.removeChild(backModal);
+
+        this.$router.push('/perfil');
 
       })
       .catch((e) => {
         console.error(e);
-        console.log("no se creo el user");
+        this.error_show = true
+        this.error_msg = "Error, No se creó el usuario"
       })
     }
   }

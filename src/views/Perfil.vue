@@ -1,7 +1,7 @@
 <template>
   <div class="perfil">
     <!-- Modal Cerrar Sesión -->
-    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal fade" id="logoutModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
       <div class="modal-dialog">
         <div class="modal-content">
           <div class="modal-header">
@@ -9,12 +9,11 @@
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
           </div>
           <div class="modal-body">
-            <p>Deberá iniciar sesión nuevamente para solicitar una adopción, publicar una mascota o gestionar sus publicaciones y adopciones.</p>
+            <p>Deberas iniciar sesión nuevamente para solicitar una adopción, publicar una mascota o gestionar sus publicaciones y adopciones.</p>
           </div>
           <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-          <a href="index.html" class="btn btn-primary">Cerrar Sesión</a>
-            <!-- <button type="button" class="btn btn-primary">Cerrar Sesión</button> -->
+          <button @click="logout()" type="button" class="btn btn-primary">Cerrar Sesión</button>
           </div>
         </div>
       </div>
@@ -258,6 +257,28 @@ export default {
     UserCard,
     PetCard,
     AdoptCard
+  },
+  mounted() {
+    // console.warn(this.$islogin)
+  },
+  methods: {
+    logout() {
+      localStorage.removeItem('localUserData');
+
+      // const logoutModal = document.getElementById("logoutModal")
+      // const backModal = document.querySelector("div.modal-backdrop");
+      // const padreM = logoutModal.parentNode;
+      // const padreBM = backModal.parentNode;
+      // padreM.removeChild(logoutModal);
+      // padreBM.removeChild(backModal);
+
+      window.location.reload()
+      // this.$router.push('/');
+      // var loM = document.getElementById('logoutModal')
+      // let myModalEl = document.getElementById('logoutModal')
+      // let loM = bootstrap.Modal.getInstance(myModalEl)
+      // loM.hide()
+    }
   }
 }
 </script>
