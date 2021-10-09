@@ -24,11 +24,11 @@
           <!---------------------------------- Login form ------------------------------------>
                 <form @submit.prevent="login()">
                   <div class="form-floating mb-3">
-                    <input v-model="c_email" type="email" class="form-control" id="floatingMail" placeholder="name@example.com" required>
+                    <input v-model="login_email" type="email" class="form-control" id="floatingMail" placeholder="name@example.com" required>
                     <label for="floatingMail">*Correo Electronico</label>
                   </div>
                   <div class="form-floating mb-3">
-                    <input v-model="c_pw" type="password" class="form-control" id="floatingPw" placeholder="Password" minlength="6"  required>
+                    <input v-model="login_pw" type="password" class="form-control" id="floatingPw" placeholder="Password" minlength="6"  required>
                     <label for="floatingPw">*Contraseña</label>
                   </div>
 
@@ -135,8 +135,8 @@ export default {
       success_show: false,
       error_msg: 'Error',
       success_msg: 'Logrado',
-      c_email: '',
-      c_pw: '',
+      login_email: '',
+      login_pw: '',
       unlogin: true,
       new_user: {user_name:"",user_email:"",user_password:"",user_phone:0}
 
@@ -153,10 +153,10 @@ export default {
   },
   methods: {
     login() {
-      getUserByEmail(this.c_email)
+      getUserByEmail(this.login_email)
       .then((response) => {
         if (response.data.user_email) {
-          if (response.data.user_password === this.c_pw) {
+          if (response.data.user_password === this.login_pw) {
             this.user_data = response.data;
             this.success_show = true
             this.success_msg = "Operación Exitosa!, redireccionando..."
@@ -173,18 +173,6 @@ export default {
             // poner un setimeout para que se vea el 
 
             localStorage.setItem('localUserData', JSON.stringify(response.data));
-            
-            // ----- Local storage doc:
-            // ----- Guardar datos
-            // const miObjeto = { 'marcado': 'html5', 'estilo': 'css3', 'comportamiento': 'js' };
-            // localStorage.setItem('datos', JSON.stringify(miObjeto));
-            // ----- Obtener los datos
-            // var guardado = localStorage.getItem('datos');
-            // console.log('objetoObtenido: ', JSON.parse(guardado));
-            // ----- Borrar los datos
-            // localStorage.removeItem('key');
-            // ----- Elimina todos los elementos
-            // localStorage.clear();
 
             // Vue.prototype.$app = this.user_data
             this.$router.push('/perfil');
@@ -207,29 +195,97 @@ export default {
     signup() {
       // const newUser = JSON.stringify(this.new_user)
       // console.log(newUser)
-      createUser(this.new_user)
-      .then((response) => {
-        localStorage.setItem('localUserData', JSON.stringify(response.data));
-        this.unlogin = false;
+      console.warn(this.new_user.user_email)
+      getUserByEmail(this.new_user.user_email)
+        .then((response) => {
+          if (response.data.user_email) {
+            if (response.data.user_password === this.new_user.user_password) {
+              this.user_data = response.data;
+              this.success_show = true
+              this.success_msg = "Operación Exitosa!, redireccionando..."
+              this.unlogin = false;
+              // loginModal.hide()
+              const loginModal = document.getElementById("exampleModal")
+              const backModal = document.querySelector("div.modal-backdrop");
+              const padreM = loginModal.parentNode;
+              const padreBM = backModal.parentNode;
+              padreM.removeChild(loginModal);
+              padreBM.removeChild(backModal);
+              this.success_show = false
+              this.error_show = false
+              // poner un setimeout para que se vea el 
 
-        const loginModal = document.getElementById("exampleModal")
-        const backModal = document.querySelector("div.modal-backdrop");
-        const padreM = loginModal.parentNode;
-        const padreBM = backModal.parentNode;
-        padreM.removeChild(loginModal);
-        padreBM.removeChild(backModal);
+              localStorage.setItem('localUserData', JSON.stringify(response.data));
 
-        this.$router.push('/perfil');
+              // Vue.prototype.$app = this.user_data
+              this.$router.push('/perfil');
 
-      })
-      .catch((e) => {
-        console.error(e);
-        this.error_show = true
-        this.error_msg = "Error, No se creó el usuario"
-      })
+            } else {
+              this.error_show = true
+              this.error_msg = "El email que ingresó ya tiene un usuario asociado, pero el pasword no coincide, use el formulario 'Iniciar Sesión' con el password correcto."
+            }
+          } else {
+            createUser(this.new_user)
+              .then((response) => {
+                localStorage.setItem('localUserData', JSON.stringify(response.data));
+                this.unlogin = false;
+
+                const loginModal = document.getElementById("exampleModal")
+                const backModal = document.querySelector("div.modal-backdrop");
+                const padreM = loginModal.parentNode;
+                const padreBM = backModal.parentNode;
+                padreM.removeChild(loginModal);
+                padreBM.removeChild(backModal);
+
+                this.$router.push('/perfil');
+
+              })
+              .catch((e) => {
+                console.error(e);
+                this.error_show = true
+                this.error_msg = "Error, No se creó el usuario"
+              })
+
+          }
+        })
+        .catch(() => {
+          createUser(this.new_user)
+              .then((response) => {
+                localStorage.setItem('localUserData', JSON.stringify(response.data));
+                this.unlogin = false;
+
+                const loginModal = document.getElementById("exampleModal")
+                const backModal = document.querySelector("div.modal-backdrop");
+                const padreM = loginModal.parentNode;
+                const padreBM = backModal.parentNode;
+                padreM.removeChild(loginModal);
+                padreBM.removeChild(backModal);
+
+                this.$router.push('/perfil');
+
+              })
+              .catch((e) => {
+                console.error(e);
+                this.error_show = true
+                this.error_msg = "Error, No se creó el usuario"
+              })
+          // this.error_show = false
+        });
+      
     }
   }
 }
+// ----- Local storage doc:
+// ----- Guardar datos
+// const miObjeto = { 'marcado': 'html5', 'estilo': 'css3', 'comportamiento': 'js' };
+// localStorage.setItem('datos', JSON.stringify(miObjeto));
+// ----- Obtener los datos
+// var guardado = localStorage.getItem('datos');
+// console.log('objetoObtenido: ', JSON.parse(guardado));
+// ----- Borrar los datos
+// localStorage.removeItem('key');
+// ----- Elimina todos los elementos
+// localStorage.clear();
 </script>
 
 
