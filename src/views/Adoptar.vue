@@ -192,8 +192,8 @@
                         />
                       </div>
                       <div class="mb-3">
-                        <label class="form-label">Teléfono</label>
-                        <input class="form-control" type="number" required />
+                        <label class="form-label">Mascota</label>
+                        <input class="form-control" placeholder="Gato: Felix" disabled/>
                       </div>
 
                       <div class="mb-3 form-check">
