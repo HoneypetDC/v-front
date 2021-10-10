@@ -39,96 +39,87 @@
     </div>
 
     <!-- Modal Editar Publicación -->
-    <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-      <div class="modal-dialog">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title" id="staticBackdropLabel">Editar Publicación</h5>
-            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-          </div>
-          <div class="modal-body">
-            <form class="form-editar">
-              <div class="mb-3">
-                <label for="foto-pet" class="form-label">Cambiar Foto de la mascota:</label>
-                <input type="file" class="form-control" id="foto-pet">
-              </div>
-    
-              <p>*Tipo de Mascota:</p>
-              <div class="form-check">
-                <input class="form-check-input" type="radio" name="tipo-m" id="tipo-perro" checked required>
-                <label class="form-check-label" for="tipo-perro">Perro</label>
-              </div>
-              <div class="form-check">
-                <input class="form-check-input" type="radio" name="tipo-m" id="tipo-gato" required>
-                <label class="form-check-label" for="tipo-gato">Gato</label>
-              </div>       
-              <br>
-              <div class="mb-3">
-                <label for="name-pet" class="form-label">*Nombre de la mascota</label>
-                <input type="text" class="form-control" id="name-pet" value="Firulais" placeholder="Si no tiene nombre puedes poner S/N"  required>
-              </div>
-    
-              <div class="mb-3">
-                <label for="location-pet" class="form-label">*Ubicación actual</label>
-                <select class="form-control" id="departamento" name="departamento" required>
-                  <option value = "">Seleccione una opción...</option>
-                  <option value = "Amazonas">Amazonas</option>
-                  <option value = "Antioquia">Antioquia</option>
-                  <option value = "Arauca">Arauca</option>
-                  <option value = "Atlántico">Atlántico</option>
-                  <option value = "Bogotá">Bogotá D.C.</option>
-                  <option value = "Bolívar">Bolívar</option>
-                  <option value = "Boyacá">Boyacá</option>
-                  <option value = "Caldas">Caldas</option>
-                  <option value = "Caquetá">Caquetá</option>
-                  <option value = "Casanare">Casanare</option>
-                  <option value = "Cauca">Cauca</option>
-                  <option value = "Cesar">Cesar</option>
-                  <option value = "Chocó">Chocó</option>		            
-                  <option value = "Córdoba">Córdoba</option>
-                  <option value = "Cundinamarca">Cundinamarca</option>
-                  <option value = "Guainía">Guainía</option>
-                  <option value = "Guaviare">Guaviare</option>
-                  <option value = "Huila">Huila</option>
-                  <option value = "La Guajira">La Guajira</option>
-                  <option value = "Magdalena">Magdalena</option>
-                  <option value = "Meta">Meta</option>
-                  <option value = "Nariño">Nariño</option>
-                  <option value = "Norte de Santander">Norte de Santander</option>
-                  <option value = "Putumayo">Putumayo</option>                
-                  <option value = "Quindío">Quindío</option>  
-                  <option value = "Risaralda">Risaralda</option>
-                  <option value = "San Andrés y Providencia">San Andrés y Providencia</option>
-                  <option value = "Santander">Santander</option>
-                  <option value = "Sucre">Sucre</option>
-                  <option value = "Tolima">Tolima</option>
-                  <option value = "Valle del Cauca">Valle del Cauca</option>
-                  <option value = "Vaupés">Vaupés</option>
-                  <option value = "Vichada">Vichada</option>
-                </select>
-              <!-- <input type="text" class="form-control"  id="location-pet" value="Bogotá DC" required> -->
-              </div>
+                <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                  <div class="modal-dialog">
+                    <div class="modal-content">
+                      <div class="modal-header">
+                        <h5 class="modal-title" id="staticBackdropLabel">Editar Publicación</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                      </div>
+                      <div class="modal-body">
+                        <form @submit.prevent="editarMascota(newMascotaData._id)" class="form-editar">
+                          <div class="mb-3">
+                            <label for="foto-pet" class="form-label">Cambiar Foto de la mascota:</label>
+                            <input type="file" class="form-control" id="foto-pet">
+                          </div>
+                          <br>
+                          <div class="mb-3">
+                            <label for="name-pet" class="form-label">*Nombre de la mascota</label>
+                            <input v-model="newMascotaData.pet_name" type="text" class="form-control" id="name-pet" value="Firulais" placeholder="Si no tiene nombre puedes poner S/N"  required>
+                          </div>
                 
-              <div class="mb-3">
-              <label for="desc-pet" class="form-label">*Descripcción: </label>
-              <textarea class="form-control" id="desc-pet" cols="30" rows="5" required placeholder="Cuentanos la historia o caracteristicas de la mascota, apliar la informacion facilitara la adopción.">Este perro fue abandonado en un parque lo encontre sucio, flaco y asustado, pero es un perro muy tierno y amoroso, lastimosamente no lo puedo conservar por que mi esposa es alergica a los perros.</textarea>
-              </div>
-  
-              <div class= "mb-3">
-              <label for="contacto" class="form-label">*Número de contacto</label>
-              <input type="text" class="form-control" id="contacto" value="601 233 4455" required>
-              </div>
-  
-              <p>*Campos obligatorios.</p>
-            </form>
-          </div>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-            <button type="button" class="btn btn-primary">Guardar Cambios</button>
-          </div>
-        </div>
-      </div>
-    </div>
+                          <div class="mb-3">
+                            <label for="location-pet" class="form-label">*Ubicación actual</label>
+                            <select v-model="newMascotaData.pet_location" class="form-control" id="departamento" name="departamento" required>
+                              <option value = "">Seleccione una opción...</option>
+                              <option value = "Amazonas">Amazonas</option>
+                              <option value = "Antioquia">Antioquia</option>
+                              <option value = "Arauca">Arauca</option>
+                              <option value = "Atlántico">Atlántico</option>
+                              <option value = "Bogotá">Bogotá D.C.</option>
+                              <option value = "Bolívar">Bolívar</option>
+                              <option value = "Boyacá">Boyacá</option>
+                              <option value = "Caldas">Caldas</option>
+                              <option value = "Caquetá">Caquetá</option>
+                              <option value = "Casanare">Casanare</option>
+                              <option value = "Cauca">Cauca</option>
+                              <option value = "Cesar">Cesar</option>
+                              <option value = "Chocó">Chocó</option>		            
+                              <option value = "Córdoba">Córdoba</option>
+                              <option value = "Cundinamarca">Cundinamarca</option>
+                              <option value = "Guainía">Guainía</option>
+                              <option value = "Guaviare">Guaviare</option>
+                              <option value = "Huila">Huila</option>
+                              <option value = "La Guajira">La Guajira</option>
+                              <option value = "Magdalena">Magdalena</option>
+                              <option value = "Meta">Meta</option>
+                              <option value = "Nariño">Nariño</option>
+                              <option value = "Norte de Santander">Norte de Santander</option>
+                              <option value = "Putumayo">Putumayo</option>                
+                              <option value = "Quindío">Quindío</option>  
+                              <option value = "Risaralda">Risaralda</option>
+                              <option value = "San Andrés y Providencia">San Andrés y Providencia</option>
+                              <option value = "Santander">Santander</option>
+                              <option value = "Sucre">Sucre</option>
+                              <option value = "Tolima">Tolima</option>
+                              <option value = "Valle del Cauca">Valle del Cauca</option>
+                              <option value = "Vaupés">Vaupés</option>
+                              <option value = "Vichada">Vichada</option>
+                            </select>
+                          <!-- <input type="text" class="form-control"  id="location-pet" value="Bogotá DC" required> -->
+                          </div>
+                            
+                          <div class="mb-3">
+                          <label for="desc-pet" class="form-label">*Descripcción: </label>
+                          <textarea v-model="newMascotaData.pet_description" class="form-control" id="desc-pet" cols="30" rows="5" required placeholder="Cuentanos la historia o caracteristicas de la mascota, apliar la informacion facilitara la adopción."></textarea>
+                          </div>
+              
+                          <div class= "mb-3">
+                          <label for="contacto" class="form-label">*Número de contacto</label>
+                          <input v-model="newMascotaData.pet_phone" type="text" class="form-control" id="contacto" value="601 233 4455" required>
+                          </div>
+              
+                          <p>*Campos obligatorios.</p>
+                          <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                            <button type="submit" class="btn btn-primary">Guardar Cambios</button>
+                          </div>
+                        </form>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <!-- fin modal editar mascota -->
 
     <!-- Modal Solicitudes -->
     <div class="modal fade" id="solicitudesModal" tabindex="-1" aria-labelledby="solicitudesModalLabel" aria-hidden="true">
@@ -209,6 +200,88 @@
               <!-- <pet-card v-for="(petpub, index) in petpubs" :key="index" :petid="petpub" /> -->
               <!-- pet-card -->
               <div v-for="(pet, index) in petpubs_data" :key="index" class="list-group-item d-flex align-items-center">
+                <!-- Modal Editar Publicación -->
+                <!-- <div class="modal fade" :id="`modal${index}`" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                  <div class="modal-dialog">
+                    <div class="modal-content">
+                      <div class="modal-header">
+                        <h5 class="modal-title" id="staticBackdropLabel">Editar Publicación</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                      </div>
+                      <div class="modal-body">
+                        <form @submit.prevent="editarMascota(pet._id)" class="form-editar">
+                          <div class="mb-3">
+                            <label for="foto-pet" class="form-label">Cambiar Foto de la mascota:</label>
+                            <input type="file" class="form-control" id="foto-pet">
+                          </div>
+                          <br>
+                          <div class="mb-3">
+                            <label for="name-pet" class="form-label">*Nombre de la mascota</label>
+                            <input v-model="pet.pet_name" type="text" class="form-control" id="name-pet" value="Firulais" placeholder="Si no tiene nombre puedes poner S/N"  required>
+                          </div>
+                
+                          <div class="mb-3">
+                            <label for="location-pet" class="form-label">*Ubicación actual</label>
+                            <select v-model="pet.pet_location" class="form-control" id="departamento" name="departamento" required>
+                              <option value = "">Seleccione una opción...</option>
+                              <option value = "Amazonas">Amazonas</option>
+                              <option value = "Antioquia">Antioquia</option>
+                              <option value = "Arauca">Arauca</option>
+                              <option value = "Atlántico">Atlántico</option>
+                              <option value = "Bogotá">Bogotá D.C.</option>
+                              <option value = "Bolívar">Bolívar</option>
+                              <option value = "Boyacá">Boyacá</option>
+                              <option value = "Caldas">Caldas</option>
+                              <option value = "Caquetá">Caquetá</option>
+                              <option value = "Casanare">Casanare</option>
+                              <option value = "Cauca">Cauca</option>
+                              <option value = "Cesar">Cesar</option>
+                              <option value = "Chocó">Chocó</option>		            
+                              <option value = "Córdoba">Córdoba</option>
+                              <option value = "Cundinamarca">Cundinamarca</option>
+                              <option value = "Guainía">Guainía</option>
+                              <option value = "Guaviare">Guaviare</option>
+                              <option value = "Huila">Huila</option>
+                              <option value = "La Guajira">La Guajira</option>
+                              <option value = "Magdalena">Magdalena</option>
+                              <option value = "Meta">Meta</option>
+                              <option value = "Nariño">Nariño</option>
+                              <option value = "Norte de Santander">Norte de Santander</option>
+                              <option value = "Putumayo">Putumayo</option>                
+                              <option value = "Quindío">Quindío</option>  
+                              <option value = "Risaralda">Risaralda</option>
+                              <option value = "San Andrés y Providencia">San Andrés y Providencia</option>
+                              <option value = "Santander">Santander</option>
+                              <option value = "Sucre">Sucre</option>
+                              <option value = "Tolima">Tolima</option>
+                              <option value = "Valle del Cauca">Valle del Cauca</option>
+                              <option value = "Vaupés">Vaupés</option>
+                              <option value = "Vichada">Vichada</option>
+                            </select>
+                          </div>
+                            
+                          <div class="mb-3">
+                          <label for="desc-pet" class="form-label">*Descripcción: </label>
+                          <textarea v-model="pet.pet_description" class="form-control" id="desc-pet" cols="30" rows="5" required placeholder="Cuentanos la historia o caracteristicas de la mascota, apliar la informacion facilitara la adopción."></textarea>
+                          </div>
+              
+                          <div class= "mb-3">
+                          <label for="contacto" class="form-label">*Número de contacto</label>
+                          <input v-model="pet.pet_phone" type="text" class="form-control" id="contacto" value="601 233 4455" required>
+                          </div>
+              
+                          <p>*Campos obligatorios.</p>
+                          <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                            <button type="submit" class="btn btn-primary">Guardar Cambios</button>
+                          </div>
+                        </form>
+                      </div>
+                    </div>
+                  </div>
+                </div> -->
+                <!-- fin modal editar mascota -->
+                <!-- card mascota -->
                   <div class="flex-shrink-0">
                       <img width="150px" :src="require(`@/assets/${pet.pet_thumb}`)" alt="Miniatura: Foto de la mascota">
                   </div>
@@ -217,11 +290,12 @@
                           <h5 class="mb-1">{{pet.pet_name}}</h5>
                           <small>{{pet.pet_type}} - {{pet.pet_location}}</small>
                       </div>
+                      <h6>Teléfono: <span>{{pet.pet_phone}}</span></h6>
                       <p class="mb-1 text-muted">{{pet.pet_description}}</p>
                       <div class="d-inline-flex w-100 justify-content-end">
                           <div class="btn-group btn-group-sm"  role="group" aria-label="botones para editar o eliminar publicación">
-                              <button data-bs-toggle="modal" data-bs-target="#eliminarPubModal" class="btn btn-secondary bgc-tclaro tc-toscuro"><i class="fas fa-trash"></i> Eliminar</button>
-                              <button class="btn btn-secondary bgc-tclaro tc-toscuro" data-bs-toggle="modal" data-bs-target="#staticBackdrop"><i class="fas fa-edit"></i> Editar</button>
+                              <button @click="eliminarMascota(pet._id,pet.publisher_id)" class="btn btn-secondary bgc-tclaro tc-toscuro"><i class="fas fa-trash"></i> Eliminar</button>
+                              <button @click="prepararEdicion(pet._id)" class="btn btn-secondary bgc-tclaro tc-toscuro" data-bs-toggle="modal" data-bs-target="#staticBackdrop"><i class="fas fa-edit"></i> Editar</button>
                               <button data-bs-toggle="modal" data-bs-target="#solicitudesModal" class="btn btn-secondary bgc-tclaro tc-toscuro"><i class="fas fa-list"></i> Solicitudes: {{pet.pet_request.length}}</button>
                           </div>
                       </div>
@@ -233,21 +307,22 @@
               </p>
             </div>
           </div>
+          <!-- adopciones section -->
           <div class="col-xl">
             <h2 class="mb-4">Adopciones</h2>
             <div id="adopt-cardli" class="list-group">
               <!-- <adopt-card /> -->
               <div v-for="(petad, index) in petadopts_data" :key="index" class="list-group-item d-flex align-items-center">
                 <div class="flex-shrink-0">
-                  <img width="150px" :src="require(`@/assets/${petad.pet_thumb}`)" alt="Miniatura: Foto de la mascota">
+                  <img width="150px" :src="require(`@/assets/${petad.pet_id.pet_thumb}`)" alt="Miniatura: Foto de la mascota">
                 </div>
                 <div class="flex-grow-1 ms-3">
                   <div class="d-inline-flex w-100 justify-content-between">
-                    <h5 class="mb-1">{{petad.pet_name}}</h5>
-                    <small>{{petad.pet_type}} - {{petad.pet_location}}</small>
+                    <h5 class="mb-1">{{petad.pet_id.pet_name}}</h5>
+                    <small>{{petad.pet_id.pet_type}} - {{petad.pet_id.pet_location}}</small>
                   </div>
-                  <h6>Teléfono: <span>{{pet_phone}}</span></h6>
-                  <p class="mb-1 text-muted">{{petad.pet_description}}</p>
+                  <h6>Teléfono: <span>{{petad.pet_id.pet_phone}}</span></h6>
+                  <p class="mb-1 text-muted">{{petad.pet_id.pet_description}}</p>
                   <div class="d-inline-flex w-100 justify-content-end">
                     <p class="estado-solicitud card-subtitle">Estado de la solicitud: <span class="badge bg-secondary bgc-tintenso tc-toscuro">{{petad.reqs_state}}</span></p>
                   </div>
@@ -264,7 +339,7 @@
 <script>
 // @ is an alias to /src
 import UserCard from '@/components/UserCard.vue'
-import { getMascotaById } from '@/services/MascotasService'
+import { getMascotaById,deleteMascotaById,editMascota } from '@/services/MascotasService'
 import { getSolicitudById } from '@/services/SolicitudesService'
 // import PetCard from '@/components/PetCard.vue'
 // import AdoptCard from '@/components/AdoptCard.vue'
@@ -281,6 +356,7 @@ export default {
       petadopts_ids: [],
       petadopts_data: [],
       petSolicitud_data: [],
+      newMascotaData: {},
       no_pubs: true,
       no_adopts: true
     }
@@ -292,8 +368,8 @@ export default {
       const lsUserData = JSON.parse(localStorage.getItem('localUserData'));
       this.petpubs_ids = lsUserData.user_pubs
       this.petadopts_ids = lsUserData.user_adopts
-      console.warn(this.petpubs_ids)
-      console.warn(this.petadopts_ids)
+      console.log(this.petpubs_ids)
+      console.log(this.petadopts_ids)
 
       this.petpubs_ids.forEach((id) => {
         getMascotaById(id)
@@ -308,20 +384,9 @@ export default {
         getSolicitudById(id)
           .then((response) => {
             this.petadopts_data.push(response.data)
-            const petId = response.data.pet_id
             console.log(this.petadopts_data);
           })
           .catch((e) => console.error("Fallo el adopts" + e));
-      })
-
-      this.petadopts_data.forEach((solicitud) => {
-        const petId = solicitud.pet_id
-        getMascotaById(petId)
-          .then((response) => {
-            this.petSolicitud_data.push(response.data)
-            console.log(this.petSolicitud_data);
-          })
-          .catch((e) => console.error(e));
       })
 
 
@@ -332,20 +397,38 @@ export default {
   methods: {
     logout() {
       localStorage.removeItem('localUserData');
-
-      // const logoutModal = document.getElementById("logoutModal")
-      // const backModal = document.querySelector("div.modal-backdrop");
-      // const padreM = logoutModal.parentNode;
-      // const padreBM = backModal.parentNode;
-      // padreM.removeChild(logoutModal);
-      // padreBM.removeChild(backModal);
-
       window.location.reload()
-      // this.$router.push('/');
-      // var loM = document.getElementById('logoutModal')
-      // let myModalEl = document.getElementById('logoutModal')
-      // let loM = bootstrap.Modal.getInstance(myModalEl)
-      // loM.hide()
+    },
+    eliminarMascota(idPet,idPub) {
+      console.log(this.petpubs_data)
+      console.log(idPet+" | "+idPub)
+      deleteMascotaById(idPet,idPub)
+        .then((response) => {
+          console.warn("Mascota eliminada" + response);
+          this.petpubs_data.splice(this.petpubs_data.indexOf(idPet),1)
+        })
+        .catch((e) => console.error("No se eliminó" + e));
+      console.log(this.petpubs_data)
+    },
+    prepararEdicion(petId) {
+      getMascotaById(petId)
+        .then((response) => {
+            this.newMascotaData = response.data
+            console.log(this.newMascotaData);
+          })
+        .catch((e) => console.error(e));
+    },
+    editarMascota(id) {
+      console.log(id)
+      console.log(this.newMascotaData)
+      editMascota(id,this.newMascotaData)
+        .then((response) => {
+            this.newMascotaData = response.data
+            console.warn("Se Actualizó");
+            window.location.reload()
+          })
+        .catch((e) => console.error("No se actualizó: "+e));
+
     }
   }
 }
