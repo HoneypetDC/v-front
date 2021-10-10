@@ -1,4 +1,5 @@
 <template>
+    <!-- pet-card -->
     <div class="list-group-item d-flex align-items-center">
         <div class="flex-shrink-0">
             <img width="150px" :src="require(`@/assets/${pet_thumb}`)" alt="Miniatura: Foto de la mascota">
@@ -25,6 +26,8 @@
         name: 'pet-card',
         data(){
             return {
+                pet_data:{},
+                
                 pet_thumb: 'img/pets/thums/thums-1.jpg',
                 pet_name:'Firulo',
                 pet_type: 'Perro',
@@ -32,6 +35,20 @@
                 pet_description: 'Este perro fue abandonado en un parque lo encontre sucio, flaco y asustado, pero es un perro muy tierno y amoroso, lastimosamente no lo puedo conservar por que mi esposa es alergica a los perros.',
                 pet_reqs: 2
             }
+        },
+        created() {
+            // const userData = localStorage.getItem('localUserData');
+            // this.perfil_data = JSON.parse(userData)
+            // console.log(this.perfil_data)
+
+            // if (localStorage.getItem('localUserData')) {
+            //     const userData = localStorage.getItem('localUserData');
+            //     this.petpubs_data = JSON.parse(userData.user_pubs)
+
+            //     console.log(this.pet_data)
+            // } else {
+            //      this.$router.push('/');
+            // }
         }
     }
 </script>

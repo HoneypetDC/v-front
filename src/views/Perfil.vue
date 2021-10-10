@@ -206,38 +206,54 @@
           <div class="col-xl">
             <h2 class="mb-4">Publicaciones</h2>
             <div id="petcardli" class="list-group">
-              <pet-card/>
-              <!-- Item 2 Publicaciones -->
-
-              <div class="list-group-item d-flex align-items-center">
-                <div class="flex-shrink-0">
-                  <img width="150px" src="img/pets/thums/thums-2.jpg" alt="Miniatura: Foto de la mascota">
-                </div>
+              <!-- <pet-card v-for="(petpub, index) in petpubs" :key="index" :petid="petpub" /> -->
+              <!-- pet-card -->
+              <div v-for="(pet, index) in petpubs_data" :key="index" class="list-group-item d-flex align-items-center">
+                  <div class="flex-shrink-0">
+                      <img width="150px" :src="require(`@/assets/${pet.pet_thumb}`)" alt="Miniatura: Foto de la mascota">
+                  </div>
                   <div class="flex-grow-1 ms-3">
-                    <div class="d-inline-flex w-100 justify-content-between">
-                      <h5 class="mb-1">Cocolin</h5>
-                      <small>Perro - Nariño</small>
-                    </div>
-                    <p class="mb-1 text-muted">Este perro tiene otra historia pero no me la se, pero es un perro muy tierno y amoroso, lastimosamente no lo puedo conservar por que mi esposa es alergica a los perros.</p>
-                    <div class="d-inline-flex w-100 justify-content-end">
-                      <div class="btn-group btn-group-sm"  role="group" aria-label="botones para editar o eliminar publicación">
-                        <button data-bs-toggle="modal" data-bs-target="#eliminarPubModal" class="btn btn-secondary bgc-tclaro tc-toscuro"><i class="fas fa-trash"></i> Eliminar</button>
-                        <button class="btn btn-secondary bgc-tclaro tc-toscuro" data-bs-toggle="modal" data-bs-target="#staticBackdrop"><i class="fas fa-edit"></i> Editar</button>
-                        <button data-bs-toggle="modal" data-bs-target="#solicitudesModal" class="btn btn-secondary bgc-tclaro tc-toscuro"><i class="fas fa-list"></i> Solicitudes: 0</button>
+                      <div class="d-inline-flex w-100 justify-content-between">
+                          <h5 class="mb-1">{{pet.pet_name}}</h5>
+                          <small>{{pet.pet_type}} - {{pet.pet_location}}</small>
                       </div>
-                    </div>
+                      <p class="mb-1 text-muted">{{pet.pet_description}}</p>
+                      <div class="d-inline-flex w-100 justify-content-end">
+                          <div class="btn-group btn-group-sm"  role="group" aria-label="botones para editar o eliminar publicación">
+                              <button data-bs-toggle="modal" data-bs-target="#eliminarPubModal" class="btn btn-secondary bgc-tclaro tc-toscuro"><i class="fas fa-trash"></i> Eliminar</button>
+                              <button class="btn btn-secondary bgc-tclaro tc-toscuro" data-bs-toggle="modal" data-bs-target="#staticBackdrop"><i class="fas fa-edit"></i> Editar</button>
+                              <button data-bs-toggle="modal" data-bs-target="#solicitudesModal" class="btn btn-secondary bgc-tclaro tc-toscuro"><i class="fas fa-list"></i> Solicitudes: {{pet.pet_request.length}}</button>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+
+              <p style="max-width: 230px" class="mx-auto mt-4 mb-5">
+                <a class="nav-link btn btn-lg bgc-tintenso tc-toscuro opaco-8" href="publicar.html"><i class="fas fa-plus" role="button"></i> Publicar Mascota</a>
+              </p>
+            </div>
+          </div>
+          <div class="col-xl">
+            <h2 class="mb-4">Adopciones</h2>
+            <div id="adopt-cardli" class="list-group">
+              <!-- <adopt-card /> -->
+              <div v-for="(petad, index) in petadopts_data" :key="index" class="list-group-item d-flex align-items-center">
+                <div class="flex-shrink-0">
+                  <img width="150px" :src="require(`@/assets/${petad.pet_thumb}`)" alt="Miniatura: Foto de la mascota">
+                </div>
+                <div class="flex-grow-1 ms-3">
+                  <div class="d-inline-flex w-100 justify-content-between">
+                    <h5 class="mb-1">{{petad.pet_name}}</h5>
+                    <small>{{petad.pet_type}} - {{petad.pet_location}}</small>
+                  </div>
+                  <h6>Teléfono: <span>{{pet_phone}}</span></h6>
+                  <p class="mb-1 text-muted">{{petad.pet_description}}</p>
+                  <div class="d-inline-flex w-100 justify-content-end">
+                    <p class="estado-solicitud card-subtitle">Estado de la solicitud: <span class="badge bg-secondary bgc-tintenso tc-toscuro">{{petad.reqs_state}}</span></p>
                   </div>
                 </div>
               </div>
-            <p style="max-width: 230px" class="mx-auto mt-4 mb-5">
-              <a class="nav-link btn btn-lg bgc-tintenso tc-toscuro opaco-8" href="publicar.html"><i class="fas fa-plus" role="button"></i> Publicar Mascota</a>
-            </p>
             </div>
-            <div class="col-xl">
-              <h2 class="mb-4">Adopciones</h2>
-              <div id="adopt-cardli" class="list-group">
-                <adopt-card />
-              </div>
           </div>
         </div>
       </section>
@@ -248,18 +264,70 @@
 <script>
 // @ is an alias to /src
 import UserCard from '@/components/UserCard.vue'
-import PetCard from '@/components/PetCard.vue'
-import AdoptCard from '@/components/AdoptCard.vue'
+import { getMascotaById } from '@/services/MascotasService'
+import { getSolicitudById } from '@/services/SolicitudesService'
+// import PetCard from '@/components/PetCard.vue'
+// import AdoptCard from '@/components/AdoptCard.vue'
 
 export default {
   name: 'Perfil',
   components: {
-    UserCard,
-    PetCard,
-    AdoptCard
+    UserCard
+  },
+  data() {
+    return {
+      petpubs_ids: [],
+      petpubs_data: [],
+      petadopts_ids: [],
+      petadopts_data: [],
+      petSolicitud_data: [],
+      no_pubs: true,
+      no_adopts: true
+    }
+
   },
   mounted() {
-    // console.warn(this.$islogin)
+    if (localStorage.getItem('localUserData')) {
+      console.log("Hay datos en lacal store")
+      const lsUserData = JSON.parse(localStorage.getItem('localUserData'));
+      this.petpubs_ids = lsUserData.user_pubs
+      this.petadopts_ids = lsUserData.user_adopts
+      console.warn(this.petpubs_ids)
+      console.warn(this.petadopts_ids)
+
+      this.petpubs_ids.forEach((id) => {
+        getMascotaById(id)
+          .then((response) => {
+            this.petpubs_data.push(response.data)
+            console.log(this.petpubs_data);
+          })
+          .catch((e) => console.error(e));
+      })
+
+      this.petadopts_ids.forEach((id) => {
+        getSolicitudById(id)
+          .then((response) => {
+            this.petadopts_data.push(response.data)
+            const petId = response.data.pet_id
+            console.log(this.petadopts_data);
+          })
+          .catch((e) => console.error("Fallo el adopts" + e));
+      })
+
+      this.petadopts_data.forEach((solicitud) => {
+        const petId = solicitud.pet_id
+        getMascotaById(petId)
+          .then((response) => {
+            this.petSolicitud_data.push(response.data)
+            console.log(this.petSolicitud_data);
+          })
+          .catch((e) => console.error(e));
+      })
+
+
+    } else {
+      this.$router.push('/');
+    }
   },
   methods: {
     logout() {
