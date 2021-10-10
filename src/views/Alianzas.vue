@@ -27,16 +27,16 @@
         <div class="dim-div-form bgc-tprofundo">
             <div class="container-fluid bgc-tblanco form-contact mx-auto">
               <h2 class="text-center mb-4">Formulario de Contacto</h2>
-              <form>
+              <form @submit.prevent="enviarEmail()">
                 <div class="mb-3">
-                    <label for="nombre-alianza" class="form-label">Persona, empresa o sociedad: </label><input id="nombre-alianza" width="25px"  type="number" size="20" placeholder="Ingrese su nombre o el nombre de su empresa" max="10" class="form-control">
+                    <label for="nombre-alianza" class="form-label">Persona, empresa o sociedad: </label><input v-model="new_email.nombre" id="nombre-alianza" width="25px"  type="text" size="20" placeholder="Ingrese su nombre o el nombre de su empresa" max="10" class="form-control">
                 </div>
                 <div  class="mb-3">
-                    <label for="correo-electronico" class="form-label">*Correo electronico: </label><input id="correo-electronico" name="correo-electronico" class="form-control" type="email" size="20"  placeholder="nombre@example.com" required>
+                    <label for="correo-electronico" class="form-label">*Correo electronico: </label><input v-model="new_email.email" id="correo-electronico" name="correo-electronico" class="form-control" type="email" size="20"  placeholder="nombre@example.com" required>
                 </div>
                 <div class="mb-3">
                   <label for="asunto-alianza" class="form-label">*Asunto:</label>
-                  <select class="form-control mb-3" name="asunto" id="asunto-alianza">
+                  <select v-model="new_email.asunto" class="form-control mb-3" name="asunto" id="asunto-alianza">
                     <option value="Default">Seleccione uno...</option>
                     <option value="Donacion">Donación</option>
                     <option value="Patrocinio">Patrocinio</option>
@@ -44,13 +44,13 @@
                   </select>
                 </div>
                 <div class="mb-3"> 
-                  <label for="descripcion-alianza" class="form-label">*Descripcion:</label>
-                  <textarea class="form-control" id="descripcion-alianza" placeholder="Describanos mas acerca de como quieres apoyarnos" rows="3" required></textarea>
+                  <label for="descripcion-alianza" class="form-label">*Mensaje:</label>
+                  <textarea v-model="new_email.mensaje" class="form-control" id="descripcion-alianza" placeholder="Describanos mas acerca de como quieres apoyarnos" rows="3" required></textarea>
                 </div>
                 <p>*Campos obligatorios</p>
                 <div class="text-center">
                   <button type="reset" class="btn bgc-tclaro opaco-8 me-3">Limpiar</button>
-                  <button type="submit" class="btn bgc-tintenso opaco-8">  Enviar</button>
+                  <button type="submit" class="btn bgc-tintenso opaco-8">Enviar</button>
                 </div>
               </form>
             </div>
@@ -62,11 +62,34 @@
 <script>
 // @ is an alias to /src
 import HeroHd from '@/components/HeroHd.vue'
+import {sendEmail} from '@/services/EmailService'
+
 
 export default {
+
   name: 'Alianzas',
   components: {
     HeroHd
+  },
+  data () {
+    return {
+
+      new_email: {nombre:"",email:"",asunto:"",mensaje:""}
+    }
+  },
+
+  methods: {
+    enviarEmail(){
+      console.warn(this.new_email)
+      sendEmail(this.new_email)
+      .then((response) => {
+        console.log(response)
+
+      })
+      .catch((e) => {
+        console.error("pinche errror"+e);
+      });
+    }
   }
 }
 </script>
@@ -113,3 +136,4 @@ export default {
     }
 }
 </style>
+
