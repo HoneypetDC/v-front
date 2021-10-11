@@ -297,12 +297,12 @@ export default {
         this.newSolicitud.push(this.petData._id);
         console.log(this.newSolicitud);
 
-        createSolicitud(this.newSolicitud)
-          .then((response) => {
-            console.log("Solicitud exitosa");
-            this.success = true;
-          })
-          .catch((e) => console.error("No se creó la solicitud " + e));
+        // createSolicitud(this.newSolicitud)
+        //   .then((response) => {
+        //     console.log("Solicitud exitosa");
+        //     this.success = true;
+        //   })
+        //   .catch((e) => console.error("No se creó la solicitud " + e));
       } else {
         console.log("No se cumplieron las dos condiciones");
       }

@@ -107,6 +107,7 @@ export default {
   data () {
     return {
       pets: [],
+      selectedPetData: {}
     }
   },
   mounted() {
@@ -136,7 +137,7 @@ export default {
               <div class="pet-info-desc bgc-tprofundo">
               <p>${this.pets[index].pet_description}</p>
               <div class="text-center">
-                  <button class="btn btn-lg bgc-tintenso tc-toscuro text-center opaco-8">Adoptar ${this.pets[index].pet_type}</button>
+                  <button onclick="selectPet(this.pets[index])" class="btn btn-lg bgc-tintenso tc-toscuro text-center opaco-8">Adoptar ${this.pets[index].pet_type}</button>
               </div>
               </div>
           </div>
@@ -153,8 +154,13 @@ export default {
           const padre = blb.parentNode;
           padre.removeChild(blb);
       }
+
       // document.querySelector('.close-lb').onclick = () => instancelb.close()
+    },
+    selectPet (pet) {
+        console.log(pet);
     }
+
   }
 }
 </script>
