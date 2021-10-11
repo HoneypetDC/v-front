@@ -136,8 +136,7 @@
               data-bs-parent="accordionPanelsStayOpenExample"
             >
               <div class="accordion-body pasos-adop">
-
-                <div v-if="this.loginb" class="login-card" >
+                <div v-if="this.loginb" class="login-card">
                   <div class="card text-center">
                     <div class="card-body">
                       <h5 class="card-title">ALERTA</h5>
@@ -148,7 +147,12 @@
                         Para hacer la solicitud de adopción debes crear una
                         cuenta o si ya tienes una, iniciar sesión
                       </p>
-                      <button type="button" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                      <button
+                        type="button"
+                        class="btn btn-secondary"
+                        data-bs-toggle="modal"
+                        data-bs-target="#exampleModal"
+                      >
                         Iniciar Sesión o Crear Cuenta
                       </button>
                       <!-- <button type="button" class="btn btn-secondary">Crear Cuenta</button> -->
@@ -158,23 +162,25 @@
                 <div v-else class="solicitud-form">
                   <p>
                     Yo
-                    <span id="perfil-name"><strong>Peter Parker</strong></span>
+                    <span id="perfil-name"
+                      ><strong>{{ userData.user_name }}</strong></span
+                    >
                     por medio del presente solicito la adopción del
-                    <span id="pub-data-type">Gato</span>
-                    <span id="pub-data-name"><strong>Felix</strong></span> para
-                    lo cual proporciono mis datos personales:
+                    <span id="pub-data-type">{{ petData.pet_type }} </span>
+                    <span id="pub-data-name"
+                      ><strong>{{ petData.pet_name }}</strong></span
+                    >
+                    para lo cual proporciono mis datos personales:
                   </p>
 
                   <div id="section" class="card card-body">
-                    <form>
+                    <form @submit.prevent="enviarSolicitud()">
                       <div class="mb-3">
-                        <label class="form-label"
-                          >Nombres y apellidos completos</label
-                        >
+                        <label class="form-label">Nombre del solicitante</label>
                         <input
+                          v-model="userData.user_name"
                           class="form-control"
                           type="text"
-                          placeholder="Peter Parker"
                           disabled
                         />
                       </div>
@@ -183,17 +189,24 @@
                           >Email</label
                         >
                         <input
+                          v-model="userData.user_email"
                           type="email"
                           class="form-control"
                           id="exampleInputEmail1"
                           aria-describedby="emailHelp"
-                          placeholder="vecinospider@shero.net.co"
                           disabled
                         />
                       </div>
                       <div class="mb-3">
-                        <label class="form-label">Mascota</label>
-                        <input class="form-control" placeholder="Gato: Felix" disabled/>
+                        <label class="form-label"
+                          >Mascota: {{ petData.pet_type }}</label
+                        >
+                        <input
+                          class="form-control"
+                          v-model="petData.pet_name"
+                          placeholder="Gato: Felix"
+                          disabled
+                        />
                       </div>
 
                       <div class="mb-3 form-check">
@@ -208,9 +221,18 @@
                           adopción</label
                         >
                       </div>
-                      <button type="submit" class="btn btn-warning">
+                      <button type="submit" class="btn btn-warning mb-3">
                         Solicitar Adopción
                       </button>
+
+                      <div v-if="success" class="alert alert-success" role="alert">
+                        La solicitud de adopción fue exitosa, en este momento está en estudio, podrá consultar el estado de su solicitud desde la página de su 
+                        <router-link
+                          to="/perfil"
+                          class="btn btn-outline-success btn-sm"
+                          >Perfil</router-link
+                        >
+                      </div>
                     </form>
                   </div>
                 </div>
@@ -226,6 +248,7 @@
 <script>
 // @ is an alias to /src
 import HeroHd from "@/components/HeroHd.vue";
+import { createSolicitud } from "@/services/SolicitudesService";
 
 export default {
   name: "Adoptar",
@@ -235,20 +258,56 @@ export default {
   data() {
     return {
       loginb: true,
-      userData: {}
-    }
+      success: false,
+      userData: {},
+      petData: {
+        pet_name: "mascota primero",
+        pet_type: "debe seleccionar",
+      },
+      newSolicitud: {},
+    };
   },
   mounted() {
-    if (localStorage.getItem('localUserData')) {
-      this.loginb = false
-      console.log("Hay datos en local store")
-      const lsUserData = JSON.parse(localStorage.getItem('localUserData'));
-      this.userData = lsUserData
-      console.log(this.userData)
+    if (localStorage.getItem("localUserData")) {
+      this.loginb = false;
+      console.log("Hay usuario en local store");
+      const lsUserData = JSON.parse(localStorage.getItem("localUserData"));
+      this.userData = lsUserData;
+      console.log(this.userData);
     } else {
-      this.loginb = true
+      this.loginb = true;
     }
-  }
+    if (localStorage.getItem("localPetData")) {
+      console.log("Hay mascota en local store");
+      const lsPetData = JSON.parse(localStorage.getItem("localPetData"));
+      this.petData = lsPetData;
+      console.log(this.petData);
+    } else {
+      console.log("No hay pet en el local store");
+    }
+  },
+  methods: {
+    enviarSolicitud() {
+      if (
+        localStorage.getItem("localUserData") &&
+        localStorage.getItem("localPetData")
+      ) {
+        console.log("Se cumplieron las dos condiciones");
+        this.newSolicitud.push(this.userData._id);
+        this.newSolicitud.push(this.petData._id);
+        console.log(this.newSolicitud);
+
+        createSolicitud(this.newSolicitud)
+          .then((response) => {
+            console.log("Solicitud exitosa");
+            this.success = true;
+          })
+          .catch((e) => console.error("No se creó la solicitud " + e));
+      } else {
+        console.log("No se cumplieron las dos condiciones");
+      }
+    },
+  },
 };
 </script>
 
