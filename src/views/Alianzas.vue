@@ -48,9 +48,13 @@
                   <textarea v-model="new_email.mensaje" class="form-control" id="descripcion-alianza" placeholder="Describanos mas acerca de como quieres apoyarnos" rows="3" required></textarea>
                 </div>
                 <p>*Campos obligatorios</p>
-                <div class="text-center">
+                <div  class="text-center">
                   <button type="reset" class="btn bgc-tclaro opaco-8 me-3">Limpiar</button>
                   <button type="submit" class="btn bgc-tintenso opaco-8">Enviar</button>
+                  <div v-if="show_alert" class="alert alert-success  alert-dismissible fade show m-3" role="alert">
+                    <strong>¡FELICIDADES!</strong> el formulario ha sido enviado con exito, pronto nos comunicaremos contigo.
+                    <button type="reset" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                  </div>
                 </div>
               </form>
             </div>
@@ -73,16 +77,16 @@ export default {
   },
   data () {
     return {
-
+      show_alert:false,
       new_email: {nombre:"",email:"",asunto:"",mensaje:""}
     }
   },
 
   methods: {
     enviarEmail(){
-      console.warn(this.new_email)
       sendEmail(this.new_email)
       .then((response) => {
+        this.show_alert = true
         console.log(response)
 
       })
