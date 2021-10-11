@@ -106,9 +106,13 @@
             <li class="nav-item"><router-link to="/mascotas" class="nav-link"><i class="fas fa-cat"></i> Mascotas</router-link></li>
             <li class="nav-item"><router-link to="/adoptar" class="nav-link"><i class="fas fa-paw"></i> Adoptar</router-link></li>
             <li class="nav-item"><router-link to="/alianzas" class="nav-link"><i class="fas fa-handshake"></i> Alianzas</router-link></li>
-            <li class="nav-item"><router-link to="/publicar" class="nav-link btn btn-sm bgc-tneutro tc-tprofundo opaco-5" href="publicar.html"><i class="fas fa-plus"></i> Publicar</router-link></li>
+
+            <li v-if="this.unlogin" class="nav-item"><a to="/publicar" class="nav-link btn btn-sm bgc-tneutro tc-tprofundo opaco-5" data-bs-toggle="modal" data-bs-target="#exampleModal"><i class="fas fa-lock"></i> Publicar</a></li>
+            <li v-else class="nav-item"><router-link to="/publicar" class="nav-link btn btn-sm bgc-tneutro tc-tprofundo opaco-5" ><i class="fas fa-plus"></i> Publicar</router-link></li>
+
             <li v-if="this.unlogin" class="nav-item"><a class="nav-link" role="button" data-bs-toggle="modal" data-bs-target="#exampleModal"><i class="fas fa-user-astronaut"></i> Ingresar</a></li>
             <li v-else class="nav-item"><router-link to="/perfil" class="nav-link" role="button"><i class="far fa-address-card"></i> Perfil</router-link></li>
+
           </ul>
         </div>
       </div>
@@ -175,7 +179,8 @@ export default {
             localStorage.setItem('localUserData', JSON.stringify(response.data));
 
             // Vue.prototype.$app = this.user_data
-            this.$router.push('/perfil');
+            // this.$router.push('/perfil');
+            window.location.reload()
 
           } else {
             this.error_show = false
@@ -218,7 +223,7 @@ export default {
               localStorage.setItem('localUserData', JSON.stringify(response.data));
 
               // Vue.prototype.$app = this.user_data
-              this.$router.push('/perfil');
+              // this.$router.push('/perfil');
 
             } else {
               this.error_show = true
@@ -237,7 +242,7 @@ export default {
                 padreM.removeChild(loginModal);
                 padreBM.removeChild(backModal);
 
-                this.$router.push('/perfil');
+                // this.$router.push('/perfil');
 
               })
               .catch((e) => {
@@ -261,7 +266,7 @@ export default {
                 padreM.removeChild(loginModal);
                 padreBM.removeChild(backModal);
 
-                this.$router.push('/perfil');
+                // this.$router.push('/perfil');
 
               })
               .catch((e) => {
@@ -277,15 +282,17 @@ export default {
 }
 // ----- Local storage doc:
 // ----- Guardar datos
-// const miObjeto = { 'marcado': 'html5', 'estilo': 'css3', 'comportamiento': 'js' };
-// localStorage.setItem('datos', JSON.stringify(miObjeto));
+// const miObjetoJson = { 'marcado': 'html5', 'estilo': 'css3', 'comportamiento': 'js' };
+// localStorage.setItem('keyName', JSON.stringify(miObjeto));
 // ----- Obtener los datos
-// var guardado = localStorage.getItem('datos');
-// console.log('objetoObtenido: ', JSON.parse(guardado));
+// const dataString = localStorage.getItem('keyName');
+// const dataJson = JSON.parse(dataString);
 // ----- Borrar los datos
-// localStorage.removeItem('key');
+// localStorage.removeItem('keyName');
 // ----- Elimina todos los elementos
 // localStorage.clear();
+
+// TO DO ===> cuando se deslogea borrar todos los datos del localStorage
 </script>
 
 
