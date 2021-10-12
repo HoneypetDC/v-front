@@ -264,7 +264,7 @@ export default {
         pet_name: "mascota primero",
         pet_type: "debe seleccionar",
       },
-      newSolicitud: {},
+      newSolicitud: { pet_id: "", candidate_id: "" }
     };
   },
   mounted() {
@@ -288,21 +288,19 @@ export default {
   },
   methods: {
     enviarSolicitud() {
-      if (
-        localStorage.getItem("localUserData") &&
-        localStorage.getItem("localPetData")
-      ) {
+      if (localStorage.getItem("localUserData") && localStorage.getItem("localPetData")) {
         console.log("Se cumplieron las dos condiciones");
-        this.newSolicitud.push(this.userData._id);
-        this.newSolicitud.push(this.petData._id);
+        this.newSolicitud.pet_id = this.petData._id;
+        this.newSolicitud.candidate_id = this.userData._id;
         console.log(this.newSolicitud);
 
-        // createSolicitud(this.newSolicitud)
-        //   .then((response) => {
-        //     console.log("Solicitud exitosa");
-        //     this.success = true;
-        //   })
-        //   .catch((e) => console.error("No se creó la solicitud " + e));
+        createSolicitud(this.newSolicitud)
+          .then((response) => {
+            console.log("Solicitud exitosa" + response);
+            this.success = true;
+          })
+          .catch((e) => console.error("No se creó la solicitud " + e));
+
       } else {
         console.log("No se cumplieron las dos condiciones");
       }

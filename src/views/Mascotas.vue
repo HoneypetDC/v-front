@@ -106,8 +106,7 @@ export default {
   },
   data () {
     return {
-      pets: [],
-      selectedPetData: {}
+      pets: []
     }
   },
   mounted() {
@@ -137,7 +136,7 @@ export default {
               <div class="pet-info-desc bgc-tprofundo">
               <p>${this.pets[index].pet_description}</p>
               <div class="text-center">
-                  <button onclick="selectPet(this.pets[index])" class="btn btn-lg bgc-tintenso tc-toscuro text-center opaco-8">Adoptar ${this.pets[index].pet_type}</button>
+                  <button class="btnAdopt btn btn-lg bgc-tintenso tc-toscuro text-center opaco-8">Adoptar ${this.pets[index].pet_type}</button>
               </div>
               </div>
           </div>
@@ -150,16 +149,27 @@ export default {
       }
 
       const blb = document.querySelector('div.basicLightbox');
+      const padre = blb.parentNode;
       document.querySelector('.close-lb').onclick = () => {
-          const padre = blb.parentNode;
           padre.removeChild(blb);
       }
 
+      document.querySelector('.btnAdopt').onclick = () => {
+          console.log(this.pets[index]);
+          const lspet = localStorage.setItem('localPetData', JSON.stringify(this.pets[index]));
+          console.log(lspet);
+          padre.removeChild(blb);
+          this.$router.push('/Adoptar');
+
+      }
+
+      // selectPet(pet) {
+      //   console.log(pet);
+      // }
+
       // document.querySelector('.close-lb').onclick = () => instancelb.close()
-    },
-    selectPet (pet) {
-        console.log(pet);
     }
+    
 
   }
 }
