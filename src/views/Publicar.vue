@@ -11,14 +11,14 @@
             <label for="foto-pet" class="form-label"
               >*Foto de la mascota:
               </label>
-            <input type="file" class="form-control mb-2" id="foto-pet" required />
+            <input @change="onImgSelected" type="file" class="form-control mb-2" id="foto-pet" required />
             <p><span class="badge bg-secondary"><i class="fas fa-lightbulb"></i> Consejo</span> Procura que la cabeza de la mascota quede centrada en la foto que vas a subir.</p>
           </div>
 
           <p>*Tipo de Mascota:</p>
           <div class="form-check">
             <input
-              v-model="newPetData.pet_type"
+              v-model="pet_type"
               class="form-check-input"
               type="radio"
               name="tipo-m"
@@ -30,7 +30,7 @@
           </div>
           <div class="form-check">
             <input
-              v-model="newPetData.pet_type"
+              v-model="pet_type"
               class="form-check-input"
               type="radio"
               name="tipo-m"
@@ -45,7 +45,7 @@
             <label for="name-pet" class="form-label"
               >*Nombre de la mascota</label
             >
-            <input v-model="newPetData.pet_name" type="text" class="form-control" id="name-pet" required />
+            <input v-model="pet_name" type="text" class="form-control" id="name-pet" required />
           </div>
 
           <div class="mb-3">
@@ -53,7 +53,7 @@
               >*Ubicación actual</label
             >
             <select
-              v-model="newPetData.pet_location"
+              v-model="pet_location"
               class="form-control"
               id="departamento"
               name="departamento"
@@ -102,7 +102,7 @@
           <div class="mb-3">
             <label for="desc-pet" class="form-label">*Descripcción: </label>
             <textarea
-              v-model="newPetData.pet_description"
+              v-model="pet_description"
               class="form-control"
               id="desc-pet"
               cols="30"
@@ -114,7 +114,7 @@
 
           <div class="mb-3">
             <label for="contacto" class="form-label">*Número de contacto</label>
-            <input v-model="newPetData.pet_phone" type="number" class="form-control" id="contacto" required />
+            <input v-model="pet_phone" type="number" class="form-control" id="contacto" required />
           </div>
 
           <p>*Campos obligatorios.</p>
@@ -144,6 +144,7 @@
 <script>
 // @ is an alias to /src
 import HeroHd from '@/components/HeroHd.vue'
+import { createMascota } from '@/services/MascotasService'
 
 export default {
   name: 'Publicar',
@@ -153,12 +154,41 @@ export default {
   
   data() {
       return {
-        newPetData: {pet_name:"",pet_type:"",pet_location:"",pet_description:"",pet_phone:0}
+        selectedImage: null,
+        pet_name:"",
+        pet_type:"",
+        pet_location:"",
+        pet_description:"",
+        pet_phone:0
       }
   },
   methods:{
+    onImgSelected(event) {
+      this.selectedImage = event.target.files[0]
+      console.log(this.selectedImage)
+    },
     publicarMascota(){
-      console.log(this.newPetData)
+      const lsUserData = JSON.parse(localStorage.getItem("localUserData"));
+      console.log(lsUserData._id)
+      const newPetData = new FormData();
+      newPetData.append("publisher_id", lsUserData._id)
+      newPetData.append("pet_name", this.pet_name)
+      newPetData.append("pet_type", this.pet_type)
+      newPetData.append("pet_location", this.pet_location)
+      newPetData.append("pet_description", this.pet_description)
+      newPetData.append("image", this.selectedImage)
+      console.log(newPetData)
+
+      createMascota(newPetData)
+        .then((response) => {
+          console.log("Exitooooo!!!!!! "+response)
+          // this.$router.push('/perfil');
+
+        })
+        .catch((e) => {
+          console.error(e);
+        })
+
     }
   }
 }
