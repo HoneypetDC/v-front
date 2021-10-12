@@ -134,6 +134,7 @@
           <div class="alert alert-success" role="alert">
             La mascota fue publicada con éxito, puedes administrarla desde tu <router-link to="/perfil" class="btn btn-outline-success btn-sm">Perfil</router-link> o <input type="reset" class="btn btn-outline-success btn-sm" value="Publicar otra mascota"/>
           </div>
+          
 
         </form>
       </section>
