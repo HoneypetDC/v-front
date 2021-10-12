@@ -176,6 +176,7 @@ export default {
       newPetData.append("pet_name", this.pet_name)
       newPetData.append("pet_type", this.pet_type)
       newPetData.append("pet_location", this.pet_location)
+      newPetData.append("pet_phone", this.pet_phone)
       newPetData.append("pet_description", this.pet_description)
       newPetData.append("image", this.selectedImage)
       console.log(newPetData)
