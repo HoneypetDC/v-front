@@ -164,38 +164,38 @@ export default {
     },
     login() {
       getUserByEmail(this.login_email)
-      .then((response) => {
-        if (response.data.user_email) {
-          if (response.data.user_password === this.login_pw) {
-            this.user_data = response.data;
-            this.success_show = true
-            this.success_msg = "Operación Exitosa!"
-            
-            localStorage.setItem('localUserData', JSON.stringify(response.data));
+        .then((response) => {
+          if (response.data.user_email) {
+            if (response.data.user_password === this.login_pw) {
+              this.user_data = response.data;
+              this.success_show = true
+              this.success_msg = "Operación Exitosa!"
+              
+              localStorage.setItem('localUserData', JSON.stringify(response.data));
 
-            this.unlogin = false;
-            this.loginModal.hide()
+              this.unlogin = false;
+              this.loginModal.hide()
 
-            this.success_show = false
-            this.error_show = false
-            // poner un setimeout para que se vea el 
+              this.success_show = false
+              this.error_show = false
+              // poner un setimeout para que se vea el 
 
-            // this.$router.push('/perfil');
-            // window.location.reload()
+              // this.$router.push('/perfil');
+              // window.location.reload()
 
-          } else {
-            this.error_show = false
-            this.error_show = true
-            this.error_msg = "La contraseña no coincide!"
+            } else {
+              this.error_show = false
+              this.error_show = true
+              this.error_msg = "La contraseña no coincide!"
+            }
           }
-        }
-      })
-      .catch((e) => {
-        console.error(e);
-        this.error_show = true
-        this.error_msg = "El email que ingreso no tiene un usuario asociado"
-        // this.error_show = false
-      });
+        })
+        .catch((e) => {
+          console.error(e);
+          this.error_show = true
+          this.error_msg = "El email que ingreso no tiene un usuario asociado"
+          // this.error_show = false
+        });
 
     },
     signup() {

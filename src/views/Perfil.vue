@@ -39,87 +39,87 @@
     </div>
 
     <!-- Modal Editar Publicación -->
-                <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-                  <div class="modal-dialog">
-                    <div class="modal-content">
-                      <div class="modal-header">
-                        <h5 class="modal-title" id="staticBackdropLabel">Editar Publicación</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                      </div>
-                      <div class="modal-body">
-                        <form @submit.prevent="editarMascota(newMascotaData._id)" class="form-editar">
-                          <!-- <div class="mb-3">
-                            <label for="foto-pet" class="form-label">Cambiar Foto de la mascota:</label>
-                            <input type="file" class="form-control" id="foto-pet">
-                          </div> -->
-                          <br>
-                          <div class="mb-3">
-                            <label for="name-pet" class="form-label">*Nombre de la mascota</label>
-                            <input v-model="newMascotaData.pet_name" type="text" class="form-control" id="name-pet" value="Firulais" placeholder="Si no tiene nombre puedes poner S/N"  required>
-                          </div>
+    <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="staticBackdropLabel">Editar Publicación</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <form @submit.prevent="editarMascota(newMascotaData._id)" class="form-editar">
+              <!-- <div class="mb-3">
+                <label for="foto-pet" class="form-label">Cambiar Foto de la mascota:</label>
+                <input type="file" class="form-control" id="foto-pet">
+              </div> -->
+              <br>
+              <div class="mb-3">
+                <label for="name-pet" class="form-label">*Nombre de la mascota</label>
+                <input v-model="newMascotaData.pet_name" type="text" class="form-control" id="name-pet" value="Firulais" placeholder="Si no tiene nombre puedes poner S/N"  required>
+              </div>
+    
+              <div class="mb-3">
+                <label for="location-pet" class="form-label">*Ubicación actual</label>
+                <select v-model="newMascotaData.pet_location" class="form-control" id="departamento" name="departamento" required>
+                  <option value = "">Seleccione una opción...</option>
+                  <option value = "Amazonas">Amazonas</option>
+                  <option value = "Antioquia">Antioquia</option>
+                  <option value = "Arauca">Arauca</option>
+                  <option value = "Atlántico">Atlántico</option>
+                  <option value = "Bogotá">Bogotá D.C.</option>
+                  <option value = "Bolívar">Bolívar</option>
+                  <option value = "Boyacá">Boyacá</option>
+                  <option value = "Caldas">Caldas</option>
+                  <option value = "Caquetá">Caquetá</option>
+                  <option value = "Casanare">Casanare</option>
+                  <option value = "Cauca">Cauca</option>
+                  <option value = "Cesar">Cesar</option>
+                  <option value = "Chocó">Chocó</option>		            
+                  <option value = "Córdoba">Córdoba</option>
+                  <option value = "Cundinamarca">Cundinamarca</option>
+                  <option value = "Guainía">Guainía</option>
+                  <option value = "Guaviare">Guaviare</option>
+                  <option value = "Huila">Huila</option>
+                  <option value = "La Guajira">La Guajira</option>
+                  <option value = "Magdalena">Magdalena</option>
+                  <option value = "Meta">Meta</option>
+                  <option value = "Nariño">Nariño</option>
+                  <option value = "Norte de Santander">Norte de Santander</option>
+                  <option value = "Putumayo">Putumayo</option>                
+                  <option value = "Quindío">Quindío</option>  
+                  <option value = "Risaralda">Risaralda</option>
+                  <option value = "San Andrés y Providencia">San Andrés y Providencia</option>
+                  <option value = "Santander">Santander</option>
+                  <option value = "Sucre">Sucre</option>
+                  <option value = "Tolima">Tolima</option>
+                  <option value = "Valle del Cauca">Valle del Cauca</option>
+                  <option value = "Vaupés">Vaupés</option>
+                  <option value = "Vichada">Vichada</option>
+                </select>
+              <!-- <input type="text" class="form-control"  id="location-pet" value="Bogotá DC" required> -->
+              </div>
                 
-                          <div class="mb-3">
-                            <label for="location-pet" class="form-label">*Ubicación actual</label>
-                            <select v-model="newMascotaData.pet_location" class="form-control" id="departamento" name="departamento" required>
-                              <option value = "">Seleccione una opción...</option>
-                              <option value = "Amazonas">Amazonas</option>
-                              <option value = "Antioquia">Antioquia</option>
-                              <option value = "Arauca">Arauca</option>
-                              <option value = "Atlántico">Atlántico</option>
-                              <option value = "Bogotá">Bogotá D.C.</option>
-                              <option value = "Bolívar">Bolívar</option>
-                              <option value = "Boyacá">Boyacá</option>
-                              <option value = "Caldas">Caldas</option>
-                              <option value = "Caquetá">Caquetá</option>
-                              <option value = "Casanare">Casanare</option>
-                              <option value = "Cauca">Cauca</option>
-                              <option value = "Cesar">Cesar</option>
-                              <option value = "Chocó">Chocó</option>		            
-                              <option value = "Córdoba">Córdoba</option>
-                              <option value = "Cundinamarca">Cundinamarca</option>
-                              <option value = "Guainía">Guainía</option>
-                              <option value = "Guaviare">Guaviare</option>
-                              <option value = "Huila">Huila</option>
-                              <option value = "La Guajira">La Guajira</option>
-                              <option value = "Magdalena">Magdalena</option>
-                              <option value = "Meta">Meta</option>
-                              <option value = "Nariño">Nariño</option>
-                              <option value = "Norte de Santander">Norte de Santander</option>
-                              <option value = "Putumayo">Putumayo</option>                
-                              <option value = "Quindío">Quindío</option>  
-                              <option value = "Risaralda">Risaralda</option>
-                              <option value = "San Andrés y Providencia">San Andrés y Providencia</option>
-                              <option value = "Santander">Santander</option>
-                              <option value = "Sucre">Sucre</option>
-                              <option value = "Tolima">Tolima</option>
-                              <option value = "Valle del Cauca">Valle del Cauca</option>
-                              <option value = "Vaupés">Vaupés</option>
-                              <option value = "Vichada">Vichada</option>
-                            </select>
-                          <!-- <input type="text" class="form-control"  id="location-pet" value="Bogotá DC" required> -->
-                          </div>
-                            
-                          <div class="mb-3">
-                          <label for="desc-pet" class="form-label">*Descripcción: </label>
-                          <textarea v-model="newMascotaData.pet_description" class="form-control" id="desc-pet" cols="30" rows="5" required placeholder="Cuentanos la historia o caracteristicas de la mascota, apliar la informacion facilitara la adopción."></textarea>
-                          </div>
-              
-                          <div class= "mb-3">
-                          <label for="contacto" class="form-label">*Número de contacto</label>
-                          <input v-model="newMascotaData.pet_phone" type="text" class="form-control" id="contacto" value="601 233 4455" required>
-                          </div>
-              
-                          <p>*Campos obligatorios.</p>
-                          <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-                            <button type="submit" class="btn btn-primary">Guardar Cambios</button>
-                          </div>
-                        </form>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <!-- fin modal editar mascota -->
+              <div class="mb-3">
+              <label for="desc-pet" class="form-label">*Descripcción: </label>
+              <textarea v-model="newMascotaData.pet_description" class="form-control" id="desc-pet" cols="30" rows="5" required placeholder="Cuentanos la historia o caracteristicas de la mascota, apliar la informacion facilitara la adopción."></textarea>
+              </div>
+  
+              <div class= "mb-3">
+              <label for="contacto" class="form-label">*Número de contacto</label>
+              <input v-model="newMascotaData.pet_phone" type="text" class="form-control" id="contacto" value="601 233 4455" required>
+              </div>
+  
+              <p>*Campos obligatorios.</p>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                <button type="submit" class="btn btn-primary">Guardar Cambios</button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- fin modal editar mascota -->
 
     <!-- Modal Solicitudes -->
     <div class="modal fade" id="solicitudesModal" tabindex="-1" aria-labelledby="solicitudesModalLabel" aria-hidden="true">
@@ -214,7 +214,7 @@
                           <div class="btn-group btn-group-sm"  role="group" aria-label="botones para editar o eliminar publicación">
                               <button @click="eliminarMascota(pet._id,pet.publisher_id)" class="btn btn-secondary bgc-tclaro tc-toscuro"><i class="fas fa-trash"></i> Eliminar</button>
                               <button @click="prepararEdicion(pet._id)" class="btn btn-secondary bgc-tclaro tc-toscuro" data-bs-toggle="modal" data-bs-target="#staticBackdrop"><i class="fas fa-edit"></i> Editar</button>
-                              <button data-bs-toggle="modal" data-bs-target="#solicitudesModal" class="btn btn-secondary bgc-tclaro tc-toscuro"><i class="fas fa-list"></i> Solicitudes: {{pet.pet_request.length}}</button>
+                              <!-- <button data-bs-toggle="modal" data-bs-target="#solicitudesModal" class="btn btn-secondary bgc-tclaro tc-toscuro"><i class="fas fa-list"></i> Solicitudes: {{pet.pet_request.length}}</button> -->
                           </div>
                       </div>
                   </div>
@@ -259,6 +259,7 @@
 import UserCard from '@/components/UserCard.vue'
 import { getMascotaById,deleteMascotaById,editMascota } from '@/services/MascotasService'
 import { getSolicitudById } from '@/services/SolicitudesService'
+import { getUserById } from '@/services/UserService'
 // import PetCard from '@/components/PetCard.vue'
 // import AdoptCard from '@/components/AdoptCard.vue'
 
@@ -273,8 +274,9 @@ export default {
       petpubs_data: [],
       petadopts_ids: [],
       petadopts_data: [],
-      petSolicitud_data: [],
+      // petSolicitud_data: [],
       newMascotaData: {},
+
       no_pubs: true,
       no_adopts: true
     }
@@ -282,31 +284,44 @@ export default {
   },
   mounted() {
     if (localStorage.getItem('localUserData')) {
-      console.log("Hay datos en lacal store")
-      
       const lsUserData = JSON.parse(localStorage.getItem('localUserData'));
-      this.petpubs_ids = lsUserData.user_pubs
-      this.petadopts_ids = lsUserData.user_adopts
-      console.log(this.petpubs_ids)
-      console.log(this.petadopts_ids)
+      console.log("Datos en lacal store: "+lsUserData)
+      const lsUserId = lsUserData._id
+      console.log("Id del usuario logeado: "+lsUserId)
+      getUserById(lsUserId)
+        .then((response) => {
+          // renueva el lsUserData
+          localStorage.removeItem('localUserData');
+          lsUserData = localStorage.setItem('localUserData', JSON.stringify(response.data));
 
-      this.petpubs_ids.forEach((id) => {
-        getMascotaById(id)
-          .then((response) => {
-            this.petpubs_data.push(response.data)
-            console.log(this.petpubs_data);
+          this.petpubs_ids = lsUserData.user_pubs
+          console.log("Ids de Mascotas Publicadas: "+this.petpubs_ids)
+        
+          this.petpubs_ids.forEach((id) => {
+            getMascotaById(id)
+              .then((response) => {
+                this.petpubs_data.push(response.data)
+                console.log("Datos de Mascotas Publicadas: "+this.petpubs_data);
+              })
+              .catch((e) => console.error("No se llenaron los datos de las mascotas publicadas: "+e));
           })
-          .catch((e) => console.error(e));
-      })
 
-      this.petadopts_ids.forEach((id) => {
-        getSolicitudById(id)
-          .then((response) => {
-            this.petadopts_data.push(response.data)
-            console.log(this.petadopts_data);
+          this.petadopts_ids = lsUserData.user_adopts
+          console.log("Ids de Solicitudes: "+this.petadopts_ids)
+          
+          this.petadopts_ids.forEach((id) => {
+            getSolicitudById(id)
+              .then((response) => {
+                this.petadopts_data.push(response.data)
+                console.log("Datos de Solicitudes: "+this.petadopts_data);
+              })
+              .catch((e) => console.error("No cargó los datos de las adopciones: " + e));
           })
-          .catch((e) => console.error("Fallo el adopts" + e));
-      })
+
+        })
+        .catch((e) => {
+          console.error("No renovo el usuario "+e);
+        })
 
     } else {
       this.$router.push('/');
@@ -319,34 +334,31 @@ export default {
     },
     eliminarMascota(idPet,idPub) {
       console.log(this.petpubs_data)
-      console.log(idPet+" | "+idPub)
+      console.log("Id mascota: "+idPet+" | Id publisher: "+idPub)
       deleteMascotaById(idPet,idPub)
         .then((response) => {
-          console.warn("Mascota eliminada" + response);
+          console.log("Mascota eliminada: " + response);
           this.petpubs_data.splice(this.petpubs_data.indexOf(idPet),1)
         })
-        .catch((e) => console.error("No se eliminó" + e));
+        .catch((e) => console.error("No se eliminó la mascota: " + e));
       console.log(this.petpubs_data)
     },
     prepararEdicion(petId) {
       getMascotaById(petId)
         .then((response) => {
             this.newMascotaData = response.data
-            console.log(this.newMascotaData);
+            console.log("Nueva data de la mascota a editar: "+this.newMascotaData);
           })
-        .catch((e) => console.error(e));
+        .catch((e) => console.error("No se cargo la nueva data: "+e));
     },
     editarMascota(id) {
-      console.log(id)
-      console.log(this.newMascotaData)
+      console.log("Id de la mascota a editar: "+id)
       editMascota(id,this.newMascotaData)
         .then((response) => {
-            this.newMascotaData = response.data
-            console.warn("Se Actualizó");
+            console.log("Se Actualizó la mascota");
             window.location.reload()
           })
-        .catch((e) => console.error("No se actualizó: "+e));
-
+        .catch((e) => console.error("No se actualizó la mascota: "+e));
     }
   }
 }
