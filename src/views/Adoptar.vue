@@ -298,6 +298,7 @@ export default {
           .then((response) => {
             console.log("Solicitud exitosa" + response);
             this.success = true;
+            localStorage.removeItem('localPetData');
           })
           .catch((e) => console.error("No se creó la solicitud " + e));
 

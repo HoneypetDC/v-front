@@ -42,7 +42,8 @@
                             <h3 class="mb-4">Ingresa en tu cuenta</h3>
                             <p class="mb-4">Para publicar o adoptar una mascota debes crear una cuenta. Al iniciar tu sesión podras ver y gestionar tus publicaciones y ver como va tu proceso de adopción desde tu propia página de perfil.</p>
                             <p style="max-width: 230px" class="mx-auto">
-                                <router-link to="/perfil" class="nav-link btn btn-sm bgc-tneutro tc-toscuro opaco-8"><i class="fas fa-user" role="button"></i> Crear Cuenta o Ingresar</router-link>
+                                <a v-if="unlogin" data-bs-toggle="modal" data-bs-target="#exampleModal" class="nav-link btn btn-sm bgc-tneutro tc-toscuro opaco-8"  role="button"><i class="fas fa-user"></i> Crear Cuenta o Ingresar</a>
+                                <router-link v-else to="/perfil" role="button" class="nav-link btn btn-sm bgc-tneutro tc-toscuro opaco-8"><i class="far fa-address-card"></i> Ver mi Perfil</router-link>
                             </p>
                         </div>
                         <div class="col-lg mb-3">
@@ -50,7 +51,8 @@
                             <h3 class="mb-4">Publicar una mascota</h3>
                             <p class="mb-4">¿Quieres dar una mascota en adopción? Ayuda a un perro o gato a encontrar una familia responsable que la proteja, la cuide y quiera integrarla a su hogar, mediante la página de nueva publicación.</p>
                             <p style="max-width: 230px" class="mx-auto">
-                                <router-link to="/publicar" class="nav-link btn btn-sm bgc-tneutro tc-toscuro opaco-8"><i class="fas fa-plus" role="button"></i> Publicar Mascota</router-link>
+                                <a v-if="unlogin" data-bs-toggle="modal" data-bs-target="#exampleModal" class="nav-link btn btn-sm bgc-tneutro tc-toscuro opaco-8"><i class="fas fa-lock"></i> Ingresar y Publicar</a>
+                                <router-link v-else to="/publicar" class="nav-link btn btn-sm bgc-tneutro tc-toscuro opaco-8" ><i class="fas fa-plus"></i> Publicar Mascota</router-link>
                             </p>
                         </div>
                         <div class="col-lg mb-3">
@@ -97,6 +99,18 @@
 
 export default {
   name: 'Inicio',
+  data() {
+      return {
+          unlogin: true
+      }
+  },
+  mounted() {
+      if (localStorage.getItem('localUserData')) {
+          this.unlogin = false
+      } else {
+          this.unlogin = true
+      }
+  }
 //   components: {
 //     HelloWorld
 //   }

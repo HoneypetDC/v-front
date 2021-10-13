@@ -7,6 +7,8 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import "basiclightbox/dist/basicLightbox.min.css";
 import "@/assets/styles/global.css";
 
+window.bootstrap = require("bootstrap")
+
 
 Vue.config.productionTip = false
 
