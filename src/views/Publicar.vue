@@ -125,14 +125,15 @@
               value="Limpiar"
             />
             <input
+              @click="bandera()"
               class="btn bgc-tintenso opaco-8 mb-3 ms-3"
               type="submit"
               value="Publicar Mascota"
             />
           </div>
         
-          <div class="alert alert-success" role="alert">
-            La mascota fue publicada con éxito, puedes administrarla desde tu <router-link to="/perfil" class="btn btn-outline-success btn-sm">Perfil</router-link> o <input type="reset" class="btn btn-outline-success btn-sm" value="Publicar otra mascota"/>
+          <div v-show="show" class="alert alert-success" role="alert">
+            La mascota fue publicada con éxito, puedes administrarla desde tu <router-link to="/perfil" class="btn btn-outline-success btn-sm">Perfil</router-link> o <input @click="bandera()" type="reset" class="btn btn-outline-success btn-sm" value="Publicar otra mascota"/>
           </div>
           
 
@@ -155,6 +156,7 @@ export default {
   
   data() {
       return {
+        show:false,
         selectedImage: null,
         pet_name:"",
         pet_type:"",
@@ -169,6 +171,7 @@ export default {
       console.log(this.selectedImage)
     },
     publicarMascota(){
+      this.show = true
       const lsUserData = JSON.parse(localStorage.getItem("localUserData"));
       console.log(lsUserData._id)
       const newPetData = new FormData();
@@ -191,6 +194,9 @@ export default {
           console.error(e);
         })
 
+    },
+    bandera(){
+      this.show = false
     }
   }
 }
