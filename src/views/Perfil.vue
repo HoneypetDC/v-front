@@ -48,10 +48,10 @@
                       </div>
                       <div class="modal-body">
                         <form @submit.prevent="editarMascota(newMascotaData._id)" class="form-editar">
-                          <div class="mb-3">
+                          <!-- <div class="mb-3">
                             <label for="foto-pet" class="form-label">Cambiar Foto de la mascota:</label>
                             <input type="file" class="form-control" id="foto-pet">
-                          </div>
+                          </div> -->
                           <br>
                           <div class="mb-3">
                             <label for="name-pet" class="form-label">*Nombre de la mascota</label>
@@ -201,7 +201,7 @@
               <!-- pet-card -->
               <div v-for="(pet, index) in petpubs_data" :key="index" class="list-group-item d-flex align-items-center">
                   <div class="flex-shrink-0">
-                      <img width="150px" :src="require(`@/assets/${pet.pet_thumb}`)" alt="Miniatura: Foto de la mascota">
+                      <img width="150px" :src="pet.pet_thumb" :alt="pet.pet_name">
                   </div>
                   <div class="flex-grow-1 ms-3">
                       <div class="d-inline-flex w-100 justify-content-between">
@@ -232,7 +232,7 @@
               <!-- <adopt-card /> -->
               <div v-for="(petad, index) in petadopts_data" :key="index" class="list-group-item d-flex align-items-center">
                 <div class="flex-shrink-0">
-                  <img width="150px" :src="require(`@/assets/${petad.pet_id.pet_thumb}`)" alt="Miniatura: Foto de la mascota">
+                  <img width="150px" :src="petad.pet_id.pet_thumb" :alt="petad.pet_id.pet_name">
                 </div>
                 <div class="flex-grow-1 ms-3">
                   <div class="d-inline-flex w-100 justify-content-between">

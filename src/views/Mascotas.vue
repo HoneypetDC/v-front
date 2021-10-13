@@ -14,7 +14,7 @@
           <div id="petpics" class="container-lg">
             <div class="row g-4 row-cols-2 row-cols-sm-3 row-cols-md-4">
               <div v-for="(pet, index) in pets" :key="index" class="col">
-                  <img @click="verMascota(index)" class="pet-thumb img-fluid rounded-3" :src="pet.pet_thumb" :alt="pet.pet_name">
+                  <img @click="verMascota(index)" class="pet-thumb img-fluid rounded-3" :src="`./thumb${pet.pet_thumb}`" :alt="pet.pet_name">
               </div>
             </div>
           </div>
@@ -106,7 +106,8 @@ export default {
   },
   data () {
     return {
-      pets: []
+      pets: [],
+      lbInstance: null
     }
   },
   mounted() {
@@ -119,10 +120,11 @@ export default {
   },
   methods: {
     verMascota(index){
-      const reqimg = require(`@/assets/${this.pets[index].pet_pic}`);
-      basicLightbox.create(/*html*/`
+      // const reqimg = require(`@/assets/${this.pets[index].pet_pic}`);
+      const petPhoto = this.pets[index].pet_pic
+      this.lbInstance = basicLightbox.create(/*html*/`
         <div class="lb-container">
-          <img src="${reqimg}">
+          <img src="${petPhoto}">
           <div class="pet-info tc-tclaro w-100">
               <div class="pet-info-bar d-flex align-items-center p-2">
               <h3 class="mt-3 ms-3">${this.pets[index].pet_name}</h3>
@@ -145,29 +147,32 @@ export default {
 
       const petdesc = document.querySelector('div.pet-info-desc');
       document.querySelector('.mas-btn').onclick = () => {
-          petdesc.classList.toggle("mas-info");
-      }
-
-      const blb = document.querySelector('div.basicLightbox');
-      const padre = blb.parentNode;
-      document.querySelector('.close-lb').onclick = () => {
-          padre.removeChild(blb);
+        petdesc.classList.toggle("mas-info");
       }
 
       document.querySelector('.btnAdopt').onclick = () => {
-          console.log(this.pets[index]);
-          const lspet = localStorage.setItem('localPetData', JSON.stringify(this.pets[index]));
-          console.log(lspet);
-          padre.removeChild(blb);
-          this.$router.push('/Adoptar');
+        console.log(this.pets[index]);
+        const lspet = localStorage.setItem('localPetData', JSON.stringify(this.pets[index]));
+        console.log(lspet);
 
+        // padre.removeChild(blb);
+        this.lbInstance.close()
+
+        this.$router.push('/Adoptar');
       }
+
+      document.querySelector('.close-lb').onclick = () => this.lbInstance.close()
+
+      // const blb = document.querySelector('div.basicLightbox');
+      // const padre = blb.parentNode;
+      // document.querySelector('.close-lb').onclick = () => {
+      //     padre.removeChild(blb);
+      // }
 
       // selectPet(pet) {
       //   console.log(pet);
       // }
 
-      // document.querySelector('.close-lb').onclick = () => instancelb.close()
     }
     
 

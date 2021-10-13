@@ -11,7 +11,7 @@
             <label for="foto-pet" class="form-label"
               >*Foto de la mascota:
               </label>
-            <input @change="onImgSelected" type="file" class="form-control mb-2" id="foto-pet" required />
+            <input @change="onImgSelected" type="file" class="form-control mb-2" id="foto-pet" accept="image/*" required />
             <p><span class="badge bg-secondary"><i class="fas fa-lightbulb"></i> Consejo</span> Procura que la cabeza de la mascota quede centrada en la foto que vas a subir.</p>
           </div>
 

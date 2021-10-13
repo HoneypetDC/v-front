@@ -107,10 +107,10 @@
             <li class="nav-item"><router-link to="/adoptar" class="nav-link"><i class="fas fa-paw"></i> Adoptar</router-link></li>
             <li class="nav-item"><router-link to="/alianzas" class="nav-link"><i class="fas fa-handshake"></i> Alianzas</router-link></li>
 
-            <li v-if="this.unlogin" class="nav-item"><a to="/publicar" class="nav-link btn btn-sm bgc-tneutro tc-tprofundo opaco-5" data-bs-toggle="modal" data-bs-target="#exampleModal"><i class="fas fa-lock"></i> Publicar</a></li>
+            <li v-if="this.unlogin" class="nav-item"><a @click="showLoginModal()" class="nav-link btn btn-sm bgc-tneutro tc-tprofundo opaco-5"><i class="fas fa-lock"></i> Publicar</a></li>
             <li v-else class="nav-item"><router-link to="/publicar" class="nav-link btn btn-sm bgc-tneutro tc-tprofundo opaco-5" ><i class="fas fa-plus"></i> Publicar</router-link></li>
 
-            <li v-if="this.unlogin" class="nav-item"><a class="nav-link" role="button" data-bs-toggle="modal" data-bs-target="#exampleModal"><i class="fas fa-user-astronaut"></i> Ingresar</a></li>
+            <li v-if="this.unlogin" class="nav-item"><a @click="showLoginModal()" class="nav-link" role="button"><i class="fas fa-user-astronaut"></i> Ingresar</a></li>
             <li v-else class="nav-item"><router-link to="/perfil" class="nav-link" role="button"><i class="far fa-address-card"></i> Perfil</router-link></li>
 
           </ul>
@@ -130,6 +130,7 @@
 // import { defineComponent } from '@vue/composition-api'
 import { getUserByEmail, createUser } from '@/services/UserService'
 import Vue from 'vue'
+// import { Modal } from 'bootstrap'
 
 export default {
   data () {
@@ -142,7 +143,8 @@ export default {
       login_email: '',
       login_pw: '',
       unlogin: true,
-      new_user: {user_name:"",user_email:"",user_password:"",user_phone:0}
+      new_user: {user_name:"",user_email:"",user_password:"",user_phone:0},
+      loginModal: null
 
     }
   },
@@ -156,6 +158,10 @@ export default {
     Vue.prototype.$islogin = this.unlogin
   },
   methods: {
+    showLoginModal() {
+      this.loginModal = new bootstrap.Modal(document.getElementById('exampleModal'), {})
+      this.loginModal.show()
+    },
     login() {
       getUserByEmail(this.login_email)
       .then((response) => {
@@ -163,24 +169,19 @@ export default {
           if (response.data.user_password === this.login_pw) {
             this.user_data = response.data;
             this.success_show = true
-            this.success_msg = "Operación Exitosa!, redireccionando..."
+            this.success_msg = "Operación Exitosa!"
+            
+            localStorage.setItem('localUserData', JSON.stringify(response.data));
+
             this.unlogin = false;
-            // loginModal.hide()
-            const loginModal = document.getElementById("exampleModal")
-            const backModal = document.querySelector("div.modal-backdrop");
-            const padreM = loginModal.parentNode;
-            const padreBM = backModal.parentNode;
-            padreM.removeChild(loginModal);
-            padreBM.removeChild(backModal);
+            this.loginModal.hide()
+
             this.success_show = false
             this.error_show = false
             // poner un setimeout para que se vea el 
 
-            localStorage.setItem('localUserData', JSON.stringify(response.data));
-
-            // Vue.prototype.$app = this.user_data
             // this.$router.push('/perfil');
-            window.location.reload()
+            // window.location.reload()
 
           } else {
             this.error_show = false
@@ -198,9 +199,7 @@ export default {
 
     },
     signup() {
-      // const newUser = JSON.stringify(this.new_user)
-      // console.log(newUser)
-      console.warn(this.new_user.user_email)
+      console.log(this.new_user.user_email)
       getUserByEmail(this.new_user.user_email)
         .then((response) => {
           if (response.data.user_email) {
@@ -210,12 +209,7 @@ export default {
               this.success_msg = "Operación Exitosa!, redireccionando..."
               this.unlogin = false;
               // loginModal.hide()
-              const loginModal = document.getElementById("exampleModal")
-              const backModal = document.querySelector("div.modal-backdrop");
-              const padreM = loginModal.parentNode;
-              const padreBM = backModal.parentNode;
-              padreM.removeChild(loginModal);
-              padreBM.removeChild(backModal);
+              this.loginModal.hide()
               this.success_show = false
               this.error_show = false
               // poner un setimeout para que se vea el 
@@ -235,12 +229,7 @@ export default {
                 localStorage.setItem('localUserData', JSON.stringify(response.data));
                 this.unlogin = false;
 
-                const loginModal = document.getElementById("exampleModal")
-                const backModal = document.querySelector("div.modal-backdrop");
-                const padreM = loginModal.parentNode;
-                const padreBM = backModal.parentNode;
-                padreM.removeChild(loginModal);
-                padreBM.removeChild(backModal);
+                this.loginModal.hide()
 
                 // this.$router.push('/perfil');
 
@@ -259,12 +248,7 @@ export default {
                 localStorage.setItem('localUserData', JSON.stringify(response.data));
                 this.unlogin = false;
 
-                const loginModal = document.getElementById("exampleModal")
-                const backModal = document.querySelector("div.modal-backdrop");
-                const padreM = loginModal.parentNode;
-                const padreBM = backModal.parentNode;
-                padreM.removeChild(loginModal);
-                padreBM.removeChild(backModal);
+                this.loginModal.hide()
 
                 // this.$router.push('/perfil');
 
