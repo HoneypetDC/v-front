@@ -14,7 +14,7 @@
           <div id="petpics" class="container-lg">
             <div class="row g-4 row-cols-2 row-cols-sm-3 row-cols-md-4">
               <div v-for="(pet, index) in pets" :key="index" class="col">
-                  <img @click="verMascota(index)" class="pet-thumb img-fluid rounded-3" :src="`./thumb${pet.pet_thumb}`" :alt="pet.pet_name">
+                  <img @click="verMascota(index)" class="pet-thumb img-fluid rounded-3" :src="pet.pet_thumb" :alt="pet.pet_name">
               </div>
             </div>
           </div>
