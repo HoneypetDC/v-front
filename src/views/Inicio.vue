@@ -13,7 +13,7 @@
                 <h2 class="text-center">Últimas Mascotas Publicadas</h2>
                 <div class="container py-5">
                     <div class="row row-cols-2 row-cols-lg-4 mx-auto">
-                        <div v-for="(pet, index) in uPets" :key="index" class="col">
+                        <div v-for="(pet, index) in pets" :key="index" class="col">
                             <img @click="verMascota(index)" class="pet-thumb img-fluid rounded-3" :src="pet.pet_thumb" :alt="pet.pet_name">
                         </div>
                     </div>
@@ -93,7 +93,7 @@ export default {
     data() {
         return {
         unlogin: true,
-        uPets: []
+        pets: []
     }
     },
     mounted() {
@@ -105,8 +105,8 @@ export default {
 
         getLastMascotas()
             .then((response) => {
-            this.uPets = response.data;
-            console.log("Ultimas 4 mascotas "+this.uPets);
+            this.pets = response.data;
+            console.log("Ultimas 4 mascotas "+this.pets);
             })
             .catch((e) => console.error(e));
     },
