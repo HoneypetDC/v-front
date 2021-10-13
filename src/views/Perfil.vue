@@ -283,6 +283,7 @@ export default {
   mounted() {
     if (localStorage.getItem('localUserData')) {
       console.log("Hay datos en lacal store")
+      
       const lsUserData = JSON.parse(localStorage.getItem('localUserData'));
       this.petpubs_ids = lsUserData.user_pubs
       this.petadopts_ids = lsUserData.user_adopts
@@ -306,7 +307,6 @@ export default {
           })
           .catch((e) => console.error("Fallo el adopts" + e));
       })
-
 
     } else {
       this.$router.push('/');

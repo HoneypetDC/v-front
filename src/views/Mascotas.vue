@@ -16,6 +16,7 @@
               <div v-for="(pet, index) in pets" :key="index" class="col">
                   <img @click="verMascota(index)" class="pet-thumb img-fluid rounded-3" :src="pet.pet_thumb" :alt="pet.pet_name">
               </div>
+
             </div>
           </div>
       </section>
@@ -120,7 +121,6 @@ export default {
   },
   methods: {
     verMascota(index){
-      // const reqimg = require(`@/assets/${this.pets[index].pet_pic}`);
       const petPhoto = this.pets[index].pet_pic
       this.lbInstance = basicLightbox.create(/*html*/`
         <div class="lb-container">
@@ -143,7 +143,9 @@ export default {
               </div>
           </div>
         </div>
-      `).show();
+      `);
+      
+      this.lbInstance.show();
 
       const petdesc = document.querySelector('div.pet-info-desc');
       document.querySelector('.mas-btn').onclick = () => {
@@ -161,7 +163,9 @@ export default {
         this.$router.push('/Adoptar');
       }
 
-      document.querySelector('.close-lb').onclick = () => this.lbInstance.close()
+      document.querySelector('.close-lb').onclick = () => { 
+        this.lbInstance.close()
+      }
 
       // const blb = document.querySelector('div.basicLightbox');
       // const padre = blb.parentNode;

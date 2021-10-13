@@ -13,17 +13,8 @@
                 <h2 class="text-center">Últimas Mascotas Publicadas</h2>
                 <div class="container py-5">
                     <div class="row row-cols-2 row-cols-lg-4 mx-auto">
-                        <div class="col">
-                            <img class="img-thumbnail" src="@/assets/img/pets/thums/thums-1.jpg" alt="Miniatura ultimas publicaciones">
-                        </div>
-                        <div class="col">
-                            <img class="img-thumbnail" src="@/assets/img/pets/thums/thums-2.jpg" alt="Miniatura ultimas publicaciones">
-                        </div>
-                        <div class="col">
-                            <img class="img-thumbnail" src="@/assets/img/pets/thums/thums-3.jpg" alt="Miniatura ultimas publicaciones">
-                        </div>
-                        <div class="col">
-                            <img class="img-thumbnail" src="@/assets/img/pets/thums/thums-4.jpg" alt="Miniatura ultimas publicaciones">
+                        <div v-for="(pet, index) in uPets" :key="index" class="col">
+                            <img @click="verMascota(index)" class="pet-thumb img-fluid rounded-3" :src="pet.pet_thumb" :alt="pet.pet_name">
                         </div>
                     </div>
                 </div>
@@ -94,26 +85,79 @@
 </template>
 
 <script>
-// @ is an alias to /src
-// import HelloWorld from '@/components/HelloWorld.vue'
+import { getLastMascotas } from '@/services/MascotasService'
+import * as basicLightbox from 'basiclightbox'
 
 export default {
-  name: 'Inicio',
-  data() {
-      return {
-          unlogin: true
-      }
-  },
-  mounted() {
-      if (localStorage.getItem('localUserData')) {
-          this.unlogin = false
-      } else {
-          this.unlogin = true
-      }
-  }
-//   components: {
-//     HelloWorld
-//   }
+    name: 'Inicio',
+    data() {
+        return {
+        unlogin: true,
+        uPets: []
+    }
+    },
+    mounted() {
+        if (localStorage.getItem('localUserData')) {
+            this.unlogin = false
+        } else {
+            this.unlogin = true
+        }
+
+        getLastMascotas()
+            .then((response) => {
+            this.uPets = response.data;
+            console.log("Ultimas 4 mascotas "+this.uPets);
+            })
+            .catch((e) => console.error(e));
+    },
+    methods: {
+    verMascota(index){
+        const petPhoto = this.pets[index].pet_pic
+        this.lbInstance = basicLightbox.create(/*html*/`
+        <div class="lb-container">
+            <img src="${petPhoto}">
+            <div class="pet-info tc-tclaro w-100">
+                <div class="pet-info-bar d-flex align-items-center p-2">
+                <h3 class="mt-3 ms-3">${this.pets[index].pet_name}</h3>
+                <div class="mx-3 vr"></div>
+                <h5 class="mt-3">${this.pets[index].pet_location}</h5>
+                <div class="ms-auto">
+                    <button type="button" class="mas-btn btn btn-outline-secondary rounded-pill"><i class="fas fa-plus"></i> Info</button>
+                    <button type="button" class="close-lb btn btn-outline-secondary rounded-circle"><i class="fas fa-times"></i></button>
+                </div>
+                </div>
+                <div class="pet-info-desc bgc-tprofundo">
+                <p>${this.pets[index].pet_description}</p>
+                <div class="text-center">
+                    <button class="btnAdopt btn btn-lg bgc-tintenso tc-toscuro text-center opaco-8">Adoptar ${this.pets[index].pet_type}</button>
+                </div>
+                </div>
+            </div>
+        </div>
+        `);
+
+        this.lbInstance.show();
+
+        const petdesc = document.querySelector('div.pet-info-desc');
+        document.querySelector('.mas-btn').onclick = () => {
+        petdesc.classList.toggle("mas-info");
+        }
+
+        document.querySelector('.btnAdopt').onclick = () => {
+            console.log("Capturo la mascota "+this.uPets[index]);
+            const lspet = localStorage.setItem('localPetData', JSON.stringify(this.uPets[index]));
+            console.log("Mascota en LS: "+lspet);
+
+            this.lbInstance.close()
+
+            this.$router.push('/Adoptar');
+        }
+
+        document.querySelector('.close-lb').onclick = () => { 
+        this.lbInstance.close()
+        }
+    }
+    }
 }
 </script>
 
