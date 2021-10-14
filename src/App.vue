@@ -105,7 +105,7 @@
             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
           </div>
           <div class="modal-body">
-            <p><span>{{ lsUserData.user_name }}</span>, puedes administrar tus publicaciones o ver el estado de tus solicitudes de adopcción desde tu página de Perfil.</p>
+            <p>Puede cerrar sesión, administrar sus publicaciones o ver el estado de sus solicitudes de adopcción desde su página de Perfil.</p>
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-outline-success" data-bs-dismiss="modal">Seguir Aquí</button>
@@ -150,7 +150,6 @@
 </template>
 
 <script>
-// import { defineComponent } from '@vue/composition-api'
 import { getUserByEmail, createUser } from '@/services/UserService'
 import Vue from 'vue'
 // import { Modal } from 'bootstrap'
@@ -168,7 +167,6 @@ export default {
       login_email: '',
       login_pw: '',
       unlogin: true,
-      lsUserData: '',
       new_user: {user_name:"",user_email:"",user_password:"",user_phone:0},
       loginModal: null,
       welcomeModal: null
@@ -179,11 +177,10 @@ export default {
     // console.warn("Hola desde el created.....")
     if(!localStorage.getItem('localUserData')){
       this.unlogin = true
-      this.lsUserData = JSON.parse(localStorage.getItem('localUserData'));
-      showWelcomeModal();
-
     } else {
       this.unlogin = false
+      this.welcomeModal = new bootstrap.Modal(document.getElementById('welcomeModal'), {})
+      this.welcomeModal.show()
     }
     Vue.prototype.$islogin = this.unlogin
   },
@@ -191,10 +188,6 @@ export default {
     showLoginModal() {
       this.loginModal = new bootstrap.Modal(document.getElementById('exampleModal'), {})
       this.loginModal.show()
-    },
-    showWelcomeModal() {
-      this.welcomeModal = new bootstrap.Modal(document.getElementById('welcomeModal'), {})
-      this.welcomeModal.show()
     },
     login() {
       getUserByEmail(this.login_email)

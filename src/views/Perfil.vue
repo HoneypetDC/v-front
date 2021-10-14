@@ -197,7 +197,7 @@
           <div class="col-xl">
             <h2 class="mb-4">Publicaciones</h2>
 
-            <div v-if="zeroPubs" class="card">
+            <div v-if="zeroPubs" class="card mb-4">
               <div class="card-header">
                 Listado de sus publicacaciones:
               </div>
@@ -241,7 +241,7 @@
           <div class="col-xl">
             <h2 class="mb-4">Adopciones</h2>
 
-            <div v-if="zeroAdopts" class="card">
+            <div v-if="zeroAdopts" class="card mb-4">
               <div class="card-header">
                 Listado de sus solicitudes de adopcción:
               </div>

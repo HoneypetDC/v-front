@@ -206,7 +206,7 @@ export default {
     opacity: .8;
 }
 
-img.pet-thumb {
+/* img.pet-thumb {
     cursor: pointer;
     box-shadow: rgba(0, 0, 0, 0.2) 0px 3px 5px;
     transition: all .3s;
@@ -283,6 +283,6 @@ div.pet-info-desc {
     .filter-box {
         margin-top: 230px;
     }
-}
+} */
 
 </style>
