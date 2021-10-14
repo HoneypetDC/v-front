@@ -232,15 +232,15 @@
               <!-- <adopt-card /> -->
               <div v-for="(petad, index) in petadopts_data" :key="index" class="list-group-item d-flex align-items-center">
                 <div class="flex-shrink-0">
-                  <img width="150px" :src="petad.pet_id.pet_thumb" :alt="petad.pet_id.pet_name">
+                  <img width="150px" :src="petad.pet.pet_thumb" :alt="petad.pet.pet_name">
                 </div>
                 <div class="flex-grow-1 ms-3">
                   <div class="d-inline-flex w-100 justify-content-between">
-                    <h5 class="mb-1">{{petad.pet_id.pet_name}}</h5>
-                    <small>{{petad.pet_id.pet_type}} - {{petad.pet_id.pet_location}}</small>
+                    <h5 class="mb-1">{{petad.pet.pet_name}}</h5>
+                    <small>{{petad.pet.pet_type}} - {{petad.pet.pet_location}}</small>
                   </div>
-                  <h6>Teléfono: <span>{{petad.pet_id.pet_phone}}</span></h6>
-                  <p class="mb-1 text-muted">{{petad.pet_id.pet_description}}</p>
+                  <h6>Teléfono: <span>{{petad.pet.pet_phone}}</span></h6>
+                  <p class="mb-1 text-muted">{{petad.pet.pet_description}}</p>
                   <div class="d-inline-flex w-100 justify-content-end">
                     <p class="estado-solicitud card-subtitle">Estado de la solicitud: <span class="badge bg-secondary bgc-tintenso tc-toscuro">{{petad.reqs_state}}</span></p>
                   </div>
@@ -276,7 +276,8 @@ export default {
       petadopts_data: [],
       // petSolicitud_data: [],
       newMascotaData: {},
-
+      lsUserData: {},
+      lsUserId: "",
       no_pubs: true,
       no_adopts: true
     }
@@ -284,17 +285,23 @@ export default {
   },
   mounted() {
     if (localStorage.getItem('localUserData')) {
-      const lsUserData = JSON.parse(localStorage.getItem('localUserData'));
-      console.log("Datos en lacal store: "+lsUserData)
-      const lsUserId = lsUserData._id
-      console.log("Id del usuario logeado: "+lsUserId)
-      getUserById(lsUserId)
+      this.lsUserData = JSON.parse(localStorage.getItem('localUserData'));
+      console.log("Datos en lacal store: "+this.lsUserData)
+      this.lsUserId = this.lsUserData._id
+      console.log("Id del usuario logeado: "+this.lsUserId)
+      getUserById(this.lsUserId)
         .then((response) => {
-          // renueva el lsUserData
+          console.log("peticion get user by id anteriores user pubs: "+this.lsUserData.user_pubs)
+          // renueva el this.lsUserData
           localStorage.removeItem('localUserData');
-          lsUserData = localStorage.setItem('localUserData', JSON.stringify(response.data));
+          localStorage.setItem('localUserData', JSON.stringify(response.data));
+          console.log("Se supone que hay nuevo ls")
+          this.lsUserData = response.data;
+          console.log("Esto debe ser un objeto JSON: "+this.lsUserData)
 
-          this.petpubs_ids = lsUserData.user_pubs
+          console.log("peticion get user by id nuevas user pubs"+this.lsUserData.user_pubs)
+
+          this.petpubs_ids = this.lsUserData.user_pubs
           console.log("Ids de Mascotas Publicadas: "+this.petpubs_ids)
         
           this.petpubs_ids.forEach((id) => {
@@ -306,7 +313,7 @@ export default {
               .catch((e) => console.error("No se llenaron los datos de las mascotas publicadas: "+e));
           })
 
-          this.petadopts_ids = lsUserData.user_adopts
+          this.petadopts_ids = this.lsUserData.user_adopts
           console.log("Ids de Solicitudes: "+this.petadopts_ids)
           
           this.petadopts_ids.forEach((id) => {
@@ -339,6 +346,7 @@ export default {
         .then((response) => {
           console.log("Mascota eliminada: " + response);
           this.petpubs_data.splice(this.petpubs_data.indexOf(idPet),1)
+          window.location.reload()
         })
         .catch((e) => console.error("No se eliminó la mascota: " + e));
       console.log(this.petpubs_data)
