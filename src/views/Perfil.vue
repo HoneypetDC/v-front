@@ -335,14 +335,6 @@ export default {
             console.log("El user NO tiene publicaciones")
             this.zeroPubs = true
           }
-
-          if (this.petadopts_ids != 0) {
-            console.log("El user tiene solicitudes")
-            this.zeroAdopts = false
-          } else {
-            console.log("El user NO tiene solicitudes")
-            this.zeroAdopts = true
-          }
         
           this.petpubs_ids.forEach((id) => {
             getMascotaById(id)
@@ -355,6 +347,14 @@ export default {
 
           this.petadopts_ids = this.lsUserData.user_adopts
           console.log("Ids de Solicitudes: "+this.petadopts_ids)
+
+          if (this.petadopts_ids != 0) {
+            console.log("El user tiene solicitudes")
+            this.zeroAdopts = false
+          } else {
+            console.log("El user NO tiene solicitudes")
+            this.zeroAdopts = true
+          }
           
           this.petadopts_ids.forEach((id) => {
             getSolicitudById(id)

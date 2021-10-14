@@ -109,7 +109,7 @@
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-outline-success" data-bs-dismiss="modal">Seguir Aquí</button>
-            <router-link to="/perfil" type="button" class="btn btn-outline-success">Ir a mi Perfil</router-link>
+            <button @click="welcomePerfil()" type="button" class="btn btn-outline-success">Ir a mi Perfil</button>
           </div>
         </div>
       </div>
@@ -203,6 +203,8 @@ export default {
               this.unlogin = false;
               this.loginModal.hide()
               // poner un setimeout para que se vea el 
+              this.welcomeModal = new bootstrap.Modal(document.getElementById('welcomeModal'), {})
+              this.welcomeModal.show()
 
             } else {
               this.loginError = false
@@ -233,6 +235,8 @@ export default {
               localStorage.setItem('localUserData', JSON.stringify(response.data));
               // poner un setimeout para que se vea el mensaje
               this.loginModal.hide()
+              this.welcomeModal = new bootstrap.Modal(document.getElementById('welcomeModal'), {})
+              this.welcomeModal.show()
 
             } else {
               this.signupError = false
@@ -248,6 +252,8 @@ export default {
                 this.loginModal.hide()
 
                 // this.$router.push('/perfil');
+                this.welcomeModal = new bootstrap.Modal(document.getElementById('welcomeModal'), {})
+                this.welcomeModal.show()
 
               })
               .catch((e) => {
@@ -268,6 +274,8 @@ export default {
                 this.loginModal.hide()
 
                 // this.$router.push('/perfil');
+                this.welcomeModal = new bootstrap.Modal(document.getElementById('welcomeModal'), {})
+                this.welcomeModal.show()
 
               })
               .catch((e) => {
@@ -278,7 +286,10 @@ export default {
               })
           // this.error_show = false
         });
-      
+    },
+    welcomePerfil(){
+      this.welcomeModal.hide();
+      this.$router.push('/perfil');
     }
   }
 }
