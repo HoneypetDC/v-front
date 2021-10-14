@@ -33,13 +33,15 @@
                   </div>
 
                   <p>*Campos obligatorios</p>
-                  <div v-if="success_show" class="alert alert-success alert-dismissible fade show" role="alert">
+
+                  <!-- Login Alert  -->
+                  <div v-if="loginSuccess" class="alert alert-success alert-dismissible fade show" role="alert">
                     {{ success_msg }}
-                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    <!-- <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button> -->
                   </div>
-                  <div v-if="error_show" class="alert alert-danger alert-dismissible fade show" role="alert">
+                  <div v-if="loginError" class="alert alert-danger alert-dismissible fade show" role="alert">
                     {{ error_msg }}
-                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    <!-- <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button> -->
                   </div>
 
                   <div class="modal-footer">
@@ -71,13 +73,13 @@
                     <label for="floatingPassword">*Contraseña</label>  
                   </div>
                   <p>*Campos obligatorios</p>
-                  <div v-if="success_show" class="alert alert-success alert-dismissible fade show" role="alert">
+                  <div v-if="signupSuccess" class="alert alert-success alert-dismissible fade show" role="alert">
                     {{ success_msg }}
-                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    <!-- <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button> -->
                   </div>
-                  <div v-if="error_show" class="alert alert-danger alert-dismissible fade show" role="alert">
+                  <div v-if="signupError" class="alert alert-danger alert-dismissible fade show" role="alert">
                     {{ error_msg }}
-                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    <!-- <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button> -->
                   </div>
                   <div class="modal-footer">
                     <button type="button" class="btn bgc-tclaro opaco-8" data-bs-dismiss="modal">Cancelar</button>
@@ -94,6 +96,27 @@
       </div>
     </div>
     <!------------------------------------------------------------------------------------->
+    <!---------------------------------- welcome modal -------------------------------------->
+    <div class="modal fade" id="welcomeModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">Bienvenido a HoneyPet DC</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <p><span>{{ lsUserData.user_name }}</span>, puedes administrar tus publicaciones o ver el estado de tus solicitudes de adopcción desde tu página de Perfil.</p>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-outline-success" data-bs-dismiss="modal">Seguir Aquí</button>
+            <router-link to="/perfil" type="button" class="btn btn-outline-success">Ir a mi Perfil</router-link>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+    <!----------------------------------- NavBar ---------------------------------------->
     <nav id="nav" class="navbar navbar-dark bg-primary navbar-expand-md fixed-top bgc-toscuro shadow">
       <div class="container-fluid">
         <a class="navbar-brand ms-3" href="#"><img src="@/assets/img/logotxt-HoneyPetDC.svg" alt="HoneyPet DC" /></a>
@@ -136,15 +159,19 @@ export default {
   data () {
     return {
       user_data: [],
-      error_show: false,
-      success_show: false,
+      loginError: false,
+      loginSuccess: false,
+      signupError: false,
+      signupSuccess: false,
       error_msg: 'Error',
       success_msg: 'Logrado',
       login_email: '',
       login_pw: '',
       unlogin: true,
+      lsUserData: '',
       new_user: {user_name:"",user_email:"",user_password:"",user_phone:0},
-      loginModal: null
+      loginModal: null,
+      welcomeModal: null
 
     }
   },
@@ -152,6 +179,9 @@ export default {
     // console.warn("Hola desde el created.....")
     if(!localStorage.getItem('localUserData')){
       this.unlogin = true
+      this.lsUserData = JSON.parse(localStorage.getItem('localUserData'));
+      showWelcomeModal();
+
     } else {
       this.unlogin = false
     }
@@ -162,39 +192,37 @@ export default {
       this.loginModal = new bootstrap.Modal(document.getElementById('exampleModal'), {})
       this.loginModal.show()
     },
+    showWelcomeModal() {
+      this.welcomeModal = new bootstrap.Modal(document.getElementById('welcomeModal'), {})
+      this.welcomeModal.show()
+    },
     login() {
       getUserByEmail(this.login_email)
         .then((response) => {
           if (response.data.user_email) {
             if (response.data.user_password === this.login_pw) {
               this.user_data = response.data;
-              this.success_show = true
+              this.loginSuccess = true
               this.success_msg = "Operación Exitosa!"
               
               localStorage.setItem('localUserData', JSON.stringify(response.data));
 
               this.unlogin = false;
               this.loginModal.hide()
-
-              this.success_show = false
-              this.error_show = false
               // poner un setimeout para que se vea el 
 
-              // this.$router.push('/perfil');
-              // window.location.reload()
-
             } else {
-              this.error_show = false
-              this.error_show = true
+              this.loginError = false
               this.error_msg = "La contraseña no coincide!"
+              this.loginError = true
             }
           }
         })
         .catch((e) => {
           console.error(e);
-          this.error_show = true
+          this.loginError = false
           this.error_msg = "El email que ingreso no tiene un usuario asociado"
-          // this.error_show = false
+          this.loginError = true
         });
 
     },
@@ -205,23 +233,18 @@ export default {
           if (response.data.user_email) {
             if (response.data.user_password === this.new_user.user_password) {
               this.user_data = response.data;
-              this.success_show = true
+              this.signupSuccess = false
               this.success_msg = "Operación Exitosa!, redireccionando..."
+              this.signupSuccess = true
               this.unlogin = false;
-              // loginModal.hide()
-              this.loginModal.hide()
-              this.success_show = false
-              this.error_show = false
-              // poner un setimeout para que se vea el 
-
               localStorage.setItem('localUserData', JSON.stringify(response.data));
-
-              // Vue.prototype.$app = this.user_data
-              // this.$router.push('/perfil');
+              // poner un setimeout para que se vea el mensaje
+              this.loginModal.hide()
 
             } else {
-              this.error_show = true
+              this.signupError = false
               this.error_msg = "El email que ingresó ya tiene un usuario asociado, pero el pasword no coincide, use el formulario 'Iniciar Sesión' con el password correcto."
+              this.signupError = true
             }
           } else {
             createUser(this.new_user)
@@ -236,8 +259,9 @@ export default {
               })
               .catch((e) => {
                 console.error(e);
-                this.error_show = true
+                this.signupError = false
                 this.error_msg = "Error, No se creó el usuario"
+                this.signupError = true
               })
 
           }
@@ -255,8 +279,9 @@ export default {
               })
               .catch((e) => {
                 console.error(e);
-                this.error_show = true
+                this.signupError = false
                 this.error_msg = "Error, No se creó el usuario"
+                this.signupError = true
               })
           // this.error_show = false
         });

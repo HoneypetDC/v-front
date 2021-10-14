@@ -196,7 +196,18 @@
         <div class="row">
           <div class="col-xl">
             <h2 class="mb-4">Publicaciones</h2>
-            <div id="petcardli" class="list-group">
+
+            <div v-if="zeroPubs" class="card">
+              <div class="card-header">
+                Listado de sus publicacaciones:
+              </div>
+              <div class="card-body">
+                <h5 class="card-title">Aquí aparecerán sus publicaciones:</h5>
+                <p class="card-text">Aún no ha realizado ninguna publicación, cuando realice alguna o varias publicaciones podrá adimistrarlas desde este espacio.</p>
+              </div>
+            </div>
+
+            <div v-else id="petcardli" class="list-group">
               <!-- <pet-card v-for="(petpub, index) in petpubs" :key="index" :petid="petpub" /> -->
               <!-- pet-card -->
               <div v-for="(pet, index) in petpubs_data" :key="index" class="list-group-item d-flex align-items-center">
@@ -221,14 +232,26 @@
               </div>
 
               <p style="max-width: 230px" class="mx-auto mt-4 mb-5">
-                <a class="nav-link btn btn-lg bgc-tintenso tc-toscuro opaco-8" href="publicar.html"><i class="fas fa-plus" role="button"></i> Publicar Mascota</a>
+                <router-link to="/publicar" class="nav-link btn btn-lg bgc-tintenso tc-toscuro opaco-8"><i class="fas fa-plus" role="button"></i> Publicar Mascota</router-link>
               </p>
             </div>
+
           </div>
           <!-- adopciones section -->
           <div class="col-xl">
             <h2 class="mb-4">Adopciones</h2>
-            <div id="adopt-cardli" class="list-group">
+
+            <div v-if="zeroAdopts" class="card">
+              <div class="card-header">
+                Listado de sus solicitudes de adopcción:
+              </div>
+              <div class="card-body">
+                <h5 class="card-title">Aquí aparecerán sus solicitudes de adopcción:</h5>
+                <p class="card-text">No tiene ninguna solicitud de adopción actualmente, desde este espacio podrá consultar el estado de sus solicitudes de adopcción.</p>
+              </div>
+            </div>
+
+            <div v-else id="adopt-cardli" class="list-group">
               <!-- <adopt-card /> -->
               <div v-for="(petad, index) in petadopts_data" :key="index" class="list-group-item d-flex align-items-center">
                 <div class="flex-shrink-0">
@@ -247,6 +270,7 @@
                 </div>
               </div>
             </div>
+
           </div>
         </div>
       </section>
@@ -278,8 +302,8 @@ export default {
       newMascotaData: {},
       lsUserData: {},
       lsUserId: "",
-      no_pubs: true,
-      no_adopts: true
+      zeroPubs: true,
+      zeroAdopts: true
     }
 
   },
@@ -303,6 +327,22 @@ export default {
 
           this.petpubs_ids = this.lsUserData.user_pubs
           console.log("Ids de Mascotas Publicadas: "+this.petpubs_ids)
+
+          if (this.petpubs_ids != 0) {
+            console.log("El user tiene publicaciones")
+            this.zeroPubs = false
+          } else {
+            console.log("El user NO tiene publicaciones")
+            this.zeroPubs = true
+          }
+
+          if (this.petadopts_ids != 0) {
+            console.log("El user tiene solicitudes")
+            this.zeroAdopts = false
+          } else {
+            console.log("El user NO tiene solicitudes")
+            this.zeroAdopts = true
+          }
         
           this.petpubs_ids.forEach((id) => {
             getMascotaById(id)
@@ -337,6 +377,9 @@ export default {
   methods: {
     logout() {
       localStorage.removeItem('localUserData');
+      this.zeroPubs = true;
+      this.zeroAdopts = true;
+
       window.location.reload()
     },
     eliminarMascota(idPet,idPub) {

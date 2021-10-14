@@ -6,7 +6,7 @@
     <main>
       <div class="filter-box d-flex fixed-top align-items-center text-center">
         <div class="filter-container ms-auto me-4 d-flex p-1 rounded-pill">
-          <div class="filter-text mx-3"><h5 class="fs-6">Viendo: <span>Perros</span> <div class="vr"></div> <span>Risaralda</span></h5></div>
+          <div class="filter-text mx-3"><h5 class="fs-6">Viendo: <span>Todos</span> <div class="vr"></div> <span>Todos</span></h5></div>
           <button class="btn btn-primary rounded-pill bgc-tintenso tc-toscuro opaco-8" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvas" aria-controls="offcanvas"><i class="fas  fa-filter"></i> Filtrar</button>
         </div>
       </div>
@@ -195,7 +195,7 @@ export default {
 }
 
 .filter-box {
-    margin-top: 70px;
+    margin-top: 290px;
 }
 .filter-text {
     margin-top: 10px;
@@ -279,6 +279,9 @@ div.pet-info-desc {
     }
     .pet-info-bar h5 {
         font-size: .9rem;
+    }
+    .filter-box {
+        margin-top: 230px;
     }
 }
 

@@ -12,7 +12,8 @@
             <section class="home-ult-mascotas p-section">
                 <h2 class="text-center">Últimas Mascotas Publicadas</h2>
                 <div class="container py-5">
-                    <div class="row row-cols-2 row-cols-lg-4 mx-auto">
+                    <!-- <div class="row g-4 row-cols-2 row-cols-sm-3 row-cols-md-4"> -->
+                    <div class="row g-4 row-cols-2 row-cols-lg-4 mx-auto">
                         <div v-for="(pet, index) in pets" :key="index" class="col">
                             <img @click="verMascota(index)" class="pet-thumb img-fluid rounded-3" :src="pet.pet_thumb" :alt="pet.pet_name">
                         </div>
@@ -144,8 +145,8 @@ export default {
         }
 
         document.querySelector('.btnAdopt').onclick = () => {
-            console.log("Capturo la mascota "+this.uPets[index]);
-            const lspet = localStorage.setItem('localPetData', JSON.stringify(this.uPets[index]));
+            console.log("Capturo la mascota "+this.pets[index]);
+            const lspet = localStorage.setItem('localPetData', JSON.stringify(this.pets[index]));
             console.log("Mascota en LS: "+lspet);
 
             this.lbInstance.close()
