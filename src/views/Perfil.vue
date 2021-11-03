@@ -284,8 +284,6 @@ import UserCard from '@/components/UserCard.vue'
 import { getMascotaById,deleteMascotaById,editMascota } from '@/services/MascotasService'
 import { getSolicitudById } from '@/services/SolicitudesService'
 import { getUserById } from '@/services/UserService'
-// import PetCard from '@/components/PetCard.vue'
-// import AdoptCard from '@/components/AdoptCard.vue'
 
 export default {
   name: 'Perfil',
@@ -310,7 +308,7 @@ export default {
   mounted() {
     if (localStorage.getItem('localUserData')) {
       this.lsUserData = JSON.parse(localStorage.getItem('localUserData'));
-      console.log("Datos en lacal store: "+this.lsUserData)
+      console.log("Datos en local store: "+this.lsUserData)
       this.lsUserId = this.lsUserData._id
       console.log("Id del usuario logeado: "+this.lsUserId)
       getUserById(this.lsUserId)

@@ -24,10 +24,6 @@
                     user_pubs:[],
                     user_adopts:[]
                 }
-                // user_name: 'Peter Porker',
-                // user_email: 'vecinospider@shero.net.co',
-                // no_pubs: 2,
-                // no_adopts: 1
             }
         },
         created() {

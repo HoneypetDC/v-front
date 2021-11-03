@@ -6,17 +6,23 @@
     <main>
       <div class="filter-box d-flex fixed-top align-items-center text-center">
         <div class="filter-container ms-auto me-4 d-flex p-1 rounded-pill">
-          <div class="filter-text mx-3"><h5 class="fs-6">Viendo: <span>Todos</span> <div class="vr"></div> <span>Todos</span></h5></div>
-          <button class="btn btn-primary rounded-pill bgc-tintenso tc-toscuro opaco-8" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvas" aria-controls="offcanvas"><i class="fas  fa-filter"></i> Filtrar</button>
+          <div class="filter-text mx-3"><h5 class="fs-6">Viendo: <span>{{typeFilter}}</span> <div class="vr"></div> <span>{{locFilter}}</span></h5></div>
+          <button @click="showOffC()" class="btn btn-primary rounded-pill bgc-tintenso tc-toscuro opaco-8" type="button" aria-controls="offcanvas"><i class="fas  fa-filter"></i> Filtrar</button>
+          <!-- <button class="btn btn-primary rounded-pill bgc-tintenso tc-toscuro opaco-8" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvas" aria-controls="offcanvas"><i class="fas  fa-filter"></i> Filtrar</button> -->
         </div>
       </div>
       <section class="gallery">
           <div id="petpics" class="container-lg">
-            <div class="row g-4 row-cols-2 row-cols-sm-3 row-cols-md-4">
+            <div v-if="!isFilter" class="row g-4 row-cols-2 row-cols-sm-3 row-cols-md-4">
               <div v-for="(pet, index) in pets" :key="index" class="col">
                   <img @click="verMascota(index)" class="pet-thumb img-fluid rounded-3" :src="pet.pet_thumb" :alt="pet.pet_name">
               </div>
+            </div>
 
+            <div v-else class="row g-4 row-cols-2 row-cols-sm-3 row-cols-md-4">
+              <div v-for="(fPet, index) in filterPets" :key="index" class="col">
+                  <img @click="verMascotaF(index)" class="pet-thumb img-fluid rounded-3" :src="fPet.pet_thumb" :alt="fPet.pet_name">
+              </div>
             </div>
           </div>
       </section>
@@ -32,22 +38,22 @@
             <form>
               <p>Tipo de mascota</p>
               <div class="form-check">
-                <input class="form-check-input" type="radio" name="tipo-m" id="tipo-todos" checked>
+                <input v-model="typeFilterSelected" class="form-check-input" value="Todos" type="radio" name="tipo-m" id="tipo-todos" checked>
                 <label class="form-check-label" for="tipo-todos">Todos</label>
               </div>
               <div class="form-check">
-                <input class="form-check-input" type="radio" name="tipo-m" id="tipo-perro">
+                <input v-model="typeFilterSelected" class="form-check-input" value="Perro" type="radio" name="tipo-m" id="tipo-perro">
                 <label class="form-check-label" for="tipo-perro">Perro</label>
               </div>
               <div class="form-check">
-                <input class="form-check-input" type="radio" name="tipo-m" id="tipo-gato">
+                <input v-model="typeFilterSelected" class="form-check-input" value="Gato" type="radio" name="tipo-m" id="tipo-gato">
                 <label class="form-check-label" for="tipo-gato">Gato</label>
               </div>
               <br>
               <label for="inputCiudadLine2" class="control-label">Ubicación</label>
 
-              <select class="form-control mb-3" id="departamento" name="departamento">
-                <option value = "">Todas</option>
+              <select v-model="locFilterSelected" class="form-control mb-3" id="departamento" name="departamento">
+                <option value = "Todas">Todas</option>
                 <option value = "Amazonas">Amazonas</option>
                 <option value = "Antioquia">Antioquia</option>
                 <option value = "Arauca">Arauca</option>
@@ -84,7 +90,7 @@
               </select>
 
               <div class="d-flex">
-                <button class="btn btn-warning text-center tc-toscuro ms-auto me-3">Filtrar</button>
+                <button @click.prevent="filtarMascotas()" class="btn btn-warning text-center tc-toscuro ms-auto me-3">Filtrar</button>
               </div>
 
             </form>
@@ -97,7 +103,7 @@
 <script>
 // @ is an alias to /src
 import HeroHd from '@/components/HeroHd.vue'
-import { getAllMascotas } from '@/services/MascotasService'
+import { getAllMascotas,getMascotasByType,getMascotasByLocation,filterMascotas } from '@/services/MascotasService'
 import * as basicLightbox from 'basiclightbox'
 
 export default {
@@ -108,7 +114,15 @@ export default {
   data () {
     return {
       pets: [],
-      lbInstance: null
+      lbInstance: null,
+      lbInstanceF: null,
+      filterPets: [],
+      isFilter: false,
+      offCanvasInstance: null,
+      typeFilterSelected: 'Todos',
+      locFilterSelected: 'Todas',
+      typeFilter: 'Todos',
+      locFilter: 'Todas'
     }
   },
   mounted() {
@@ -167,18 +181,100 @@ export default {
         this.lbInstance.close()
       }
 
-      // const blb = document.querySelector('div.basicLightbox');
-      // const padre = blb.parentNode;
-      // document.querySelector('.close-lb').onclick = () => {
-      //     padre.removeChild(blb);
-      // }
+    },
+    verMascotaF(index){
+      const petPhoto = this.filterPets[index].pet_pic
+      this.lbInstanceF = basicLightbox.create(/*html*/`
+        <div class="lb-container">
+          <img src="${petPhoto}">
+          <div class="pet-info tc-tclaro w-100">
+              <div class="pet-info-bar d-flex align-items-center p-2">
+              <h3 class="mt-3 ms-3">${this.filterPets[index].pet_name}</h3>
+              <div class="mx-3 vr"></div>
+              <h5 class="mt-3">${this.filterPets[index].pet_location}</h5>
+              <div class="ms-auto">
+                  <button type="button" class="mas-btn btn btn-outline-secondary rounded-pill"><i class="fas fa-plus"></i> Info</button>
+                  <button type="button" class="close-lb btn btn-outline-secondary rounded-circle"><i class="fas fa-times"></i></button>
+              </div>
+              </div>
+              <div class="pet-info-desc bgc-tprofundo">
+              <p>${this.filterPets[index].pet_description}</p>
+              <div class="text-center">
+                  <button class="btnAdopt btn btn-lg bgc-tintenso tc-toscuro text-center opaco-8">Adoptar ${this.filterPets[index].pet_type}</button>
+              </div>
+              </div>
+          </div>
+        </div>
+      `);
+      
+      this.lbInstanceF.show();
 
-      // selectPet(pet) {
-      //   console.log(pet);
-      // }
+      const petdesc = document.querySelector('div.pet-info-desc');
+      document.querySelector('.mas-btn').onclick = () => {
+        petdesc.classList.toggle("mas-info");
+      }
 
+      document.querySelector('.btnAdopt').onclick = () => {
+        console.log(this.filterPets[index]);
+        const lspet = localStorage.setItem('localPetData', JSON.stringify(this.filterPets[index]));
+        console.log(lspet);
+
+        // padre.removeChild(blb);
+        this.lbInstanceF.close()
+
+        this.$router.push('/Adoptar');
+      }
+
+      document.querySelector('.close-lb').onclick = () => { 
+        this.lbInstanceF.close()
+      }
+
+    },
+    showOffC(){
+      this.offCanvasInstance = new bootstrap.Offcanvas(document.getElementById('offcanvas'));
+      this.offCanvasInstance.show();
+    },
+    filtarMascotas(){
+      if (this.typeFilterSelected == 'Todos' && this.locFilterSelected == 'Todas') {
+        this.isFilter = false;
+        this.offCanvasInstance.hide();
+        this.typeFilter = this.typeFilterSelected;
+        this.locFilter = this.locFilterSelected;
+      } else if (this.typeFilterSelected == 'Todos' && this.locFilterSelected != 'Todas') {
+        this.isFilter = true;
+        getMascotasByLocation(this.locFilterSelected)
+          .then((response) => {
+            this.filterPets = response.data;
+            console.log(`Filtrado por loc (${this.locFilterSelected}): ${this.filterPets}`);
+          })
+          .catch((e) => console.error(e));
+        this.offCanvasInstance.hide();
+        this.typeFilter = this.typeFilterSelected;
+        this.locFilter = this.locFilterSelected;
+      } else if (this.typeFilterSelected != 'Todos' && this.locFilterSelected == 'Todas') {
+        this.isFilter = true;
+        getMascotasByType(this.typeFilterSelected)
+          .then((response) => {
+            this.filterPets = response.data;
+            console.log(`Filtrado por type (${this.typeFilterSelected}): ${this.filterPets}`);
+          })
+          .catch((e) => console.error(e));
+        this.offCanvasInstance.hide();
+        this.typeFilter = this.typeFilterSelected;
+        this.locFilter = this.locFilterSelected;
+      } else if (this.typeFilterSelected != 'Todos' && this.locFilterSelected != 'Todas') {
+        this.isFilter = true;
+        filterMascotas(this.typeFilterSelected, this.locFilterSelected)
+          .then((response) => {
+            this.filterPets = response.data;
+            console.log(`Filtrado por loc (${this.locFilterSelected}) y type (${this.typeFilterSelected}): ${this.filterPets}`);
+          })
+          .catch((e) => console.error(e));
+        this.offCanvasInstance.hide();
+        this.typeFilter = this.typeFilterSelected;
+        this.locFilter = this.locFilterSelected;
+      }
     }
-    
 
   }
 }

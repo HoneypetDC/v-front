@@ -4,7 +4,7 @@
             <header class="container-section-brand-home">
                 <div class="section-brand mx-auto text-center">
                     <h1><img class="logo-home img-fluid" src="@/assets/img/logo-HoneyPetDC.svg" alt="HoneyPet DC" /></h1>
-                    <p>Sumamos amor a las familias, dandole una segunda oportunidad a una mascota que necesita un hogar. En este sitio podrás publicar o adoptar una mascota en cualquier lugar de Colombia</p>
+                    <p class="fs-5">Sumamos amor a las familias, dandole una segunda oportunidad a una mascota que necesita un hogar. En este sitio podrás publicar o adoptar una mascota en cualquier lugar de Colombia</p>
                 </div>
             </header>
         </div>

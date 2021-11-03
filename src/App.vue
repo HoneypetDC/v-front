@@ -142,19 +142,21 @@
     </nav>
 
     <router-view/>
-
-    <footer class="bgc-toscuro tc-tneutro">
-      <p class="text-center opaco-8">©2021 - TODOS LOS DERECHOS RESERVADOS HONEYPET DC - DEVELOP BY MTIC:UTP_G2-47</p>
-    </footer>
+    
+    <Footer />
   </div>
 </template>
 
 <script>
 import { getUserByEmail, createUser } from '@/services/UserService'
 import Vue from 'vue'
+import Footer from '@/components/Footer.vue'
 // import { Modal } from 'bootstrap'
 
 export default {
+  components: {
+    Footer
+  },
   data () {
     return {
       user_data: [],
